@@ -18,7 +18,7 @@ Possible errors are logged in a *log.txt* file.
 
 ## Standalone
 To simply use the **eVAS** you can download the latest release and start it without installing further requirements. To do so, follow the the instructions:
-- Simple visit the website with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
+- Simple visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
 - Download the standalone **eVAS** software ('*eVAS.exe*' for windows)
 - Start the application
 - (If a the following message from windows defender occurs, run the software by: )
