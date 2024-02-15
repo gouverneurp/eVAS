@@ -88,6 +88,12 @@ For Mac use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
 create_mac_app.sh
 ```
 
+# How to contribute to the software
+All help is welcomed and needed! Feel free to open pull requests and to contact us by mail under [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de)
+
+# Report issues or problems with the software
+You are welcomed to open issues here directly on GitHub or contact us by mail under [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de)
+
 # Used resources
 The icon of the application (<img src="./images/icon.png?raw=true" width="12"/>) is free for use and can be found under following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
 
