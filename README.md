@@ -12,8 +12,10 @@ It is an open source, easy to use and user friendly slider that records the slid
 The *config.ini* file can be edited to customise the **eVAS** to your needs. Examples of possible configurations can be found in the [examples](examples/) directory.
 Possible errors are logged in a *log.txt* file.
 
-<picture align="center">
-    <img src="images/screenshot_application.png?raw=true" width="500"/>
+<picture>
+    <p align="center">
+        <img src="images/screenshot_application.png?raw=true" width="500"/>
+    </p>
 </picture>
 
 # How to use
