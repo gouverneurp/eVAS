@@ -784,7 +784,7 @@ def check_for_update():
                             "Automatic update is currently not supported for your Operating System. " +
                             "Do you want to open the download page?")
                 if answer == 'yes':
-                    webbrowser.open_new(url= "https://github.com/gouverneurp/eVAS/releases/")
+                    webbrowser.open_new(url= "https://gouverneurp.github.io/evas.html")
                     sys.exit()
                 return
 
