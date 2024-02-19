@@ -25,13 +25,13 @@ authors:
     affiliation: 3
   - name: Jarek Krajewski
     orcid: 0000-0001-8936-7105
-    affiliation: "3, 4"
+    affiliation: 3
   - name: Kerstin Luedtke
     orcid: 0000-0002-7308-5469
     affiliation: 2
   - name: Marcin Grzegorzek
     orcid: 0000-0003-4877-8287
-    affiliation: "1, 5"
+    affiliation: "1, 4"
 
 affiliations:
   - name: Institute of Medical Informatics, University of Lübeck, Ratzeburger Allee 160, 23562 Lübeck, Germany
@@ -40,10 +40,8 @@ affiliations:
     index: 2
   - name: Institut für Experimentelle Psychophysiologie Gmbh (IXP), 40215 Düsseldorf, Germany
     index: 3
-  - name: Lehrstuhl für Experimentelle Wirtschaftspsychologie, University of Wuppertal, 42097 Wuppertal, Germany
-    index: 4
   - name: Department of Knowledge Engineering, University of Economics in Katowice, Bogucicka 3, 40287 Katowice, Poland
-    index: 5
+    index: 4
 date: 19 Januar 2024
 bibliography: paper.bib
 ---
