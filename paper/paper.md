@@ -54,8 +54,8 @@ Ratings are often obtained using simple Visual Analogue Scales (VAS) or Numeric 
 While these self-reports are easy to do with pen and paper, open-source software that can easily digitise and quantify the results of self-reports on an ongoing basis is rare. This is particularly true for researchers who are unfamiliar with writing code and software themselves.
 
 <!---Description of the software, idea of open source and easy to use for non programmers-->
-Thus, we are introducing the electronic Visual Analogue Scale (eVAS), an easy-to-use electronic visual analogue scale that continuously records subjects' feedback. Initially introduced to record pain levels for automated pain detection, but not limited to this use case, eVAS aims to provide a ready-to-use tool that is highly configurable, even for non-computer scientists, that can be used for various applications.
-eVAS is open-source, hosted on [GitHub](https://github.com/gouverneurp/eVAS), available under a [download page](https://gouverneurp.github.io/evas.html) and distributed under an MIT license. It employs automatic updates via GitHub when a new release is available, is working fail-safe with logging possible errors in a log and saving outcomes as text files.
+We therefore present the electronic Visual Analogue Scale (eVAS), an easy-to-use electronic visual analogue scale that continuously records subject feedback. Initially introduced to record pain levels for automated pain detection, but not limited to this use case, eVAS aims to provide a ready-to-use tool that is highly configurable, even for non-computer scientists, and can be used for various applications.
+eVAS is open source, hosted on [GitHub](https://github.com/gouverneurp/eVAS), available from a [download page](https://gouverneurp.github.io/evas.html) and distributed under an MIT license. It employs automatic updates via GitHub when a new release is available, is working fail-safe, logs possible errors in a log file and saves results as text files.
 
 # Statement of need
 
