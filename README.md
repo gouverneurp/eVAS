@@ -3,16 +3,18 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/gouverneurp/eVAS/blob/main/LICENSE.MD)
 
 # eVAS
-<img src="./images/icon.png?raw=true" width="50"/>
+<picture>
+    <img src="./images/icon.png?raw=true" width="50"/>
+</picture>
 
 This is the source code of the **e**lectronic **V**isual **A**nalogue **S**cale (**eVAS**).
 It is an open source, easy to use and user friendly slider that records the slider values and saves them to CSV files.
 The *config.ini* file can be edited to customise the **eVAS** to your needs. Examples of possible configurations can be found in the [examples](examples/) directory.
 Possible errors are logged in a *log.txt* file.
 
-<p align="center">
+<picture align="center">
     <img src="images/screenshot_application.png?raw=true" width="500"/>
-</p>
+</picture>
 
 # How to use
 
@@ -25,7 +27,7 @@ To simply use the **eVAS** you can download the latest release and start it with
 
 First step                 |  Second step
 :-------------------------:|:-------------------------:
-<img src="images/windows_protected_1.png?raw=true" width="400"/>  |  <img src="images/windows_protected_2.png?raw=true" width="400"/>
+<picture><img src="images/windows_protected_1.png?raw=true" width="400"/></picture>  |  <picture><img src="images/windows_protected_2.png?raw=true" width="400"/></picture>
 
 ## Examples
 
@@ -33,9 +35,9 @@ First step                 |  Second step
 
 Cold hot scale             |  Custom image scale
 :-------------------------:|:-------------------------:
-<img src="examples/cold_hot_scale/screenshot.png?raw=true" width="400"/>  |  <img src="examples/custom_image_scale/screenshot.png?raw=true" width="400"/>
+<picture><img src="examples/cold_hot_scale/screenshot.png?raw=true" width="400"/></picture>  |  <picture><img src="examples/custom_image_scale/screenshot.png?raw=true" width="400"/></picture>
 **Default**                |  **Simplified faces pain scale**
-<img src="examples/default/screenshot.png?raw=true" width="400"/>  |  <img src="examples/simplified_faces_pain_scale/screenshot.png?raw=true" width="400"/>
+<picture><img src="examples/default/screenshot.png?raw=true" width="400"/></picture>  |  <picture><img src="examples/simplified_faces_pain_scale/screenshot.png?raw=true" width="400"/></picture>
 
 ## Python
 If you want to run **eVAS** as a Python script, debug or contribute, please run the following commands:
@@ -95,7 +97,7 @@ All help is welcomed and needed! Feel free to open pull requests and to contact 
 You are welcomed to open issues here directly on GitHub or contact us by mail under [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de)
 
 # Used resources
-The icon of the application (<img src="./images/icon.png?raw=true" width="12"/>) is free for use and can be found under following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
+The icon of the application (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free for use and can be found under following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
 
 <!---TODO:
 # Please cite our paper if you use our software or code:
