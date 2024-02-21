@@ -7,7 +7,7 @@ set -e
 # Functions                                                #
 ############################################################
 
-# exits the script with status code 1
+# installs pandac 3.1.6.2 (AMD64)
 function install_pandoc() {
     echo "Try to install pandoc it..."
     wget https://github.com/jgm/pandoc/releases/download/3.1.6.2/pandoc-3.1.6.2-1-amd64.deb
