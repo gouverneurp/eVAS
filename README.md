@@ -85,12 +85,12 @@ For Windows use the [create_vas_exe.ps1](scripts/create_vas_exe.ps1) script:
 
 For ubuntu use the [create_ubuntu_app.sh](scripts/create_ubuntu_app.sh) script:
 ```bash 
-create_ubuntu_app.sh
+./scripts/create_ubuntu_app.sh
 ```
 
 For Mac use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
 ```bash 
-create_mac_app.sh
+./scripts/create_mac_app.sh
 ```
 
 # How to contribute to the software
