@@ -94,7 +94,7 @@ For MacOS use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
 ```
 
 # How to contribute to the software
-All help is welcome and needed! Feel free to open pull requests and contact us via email at [philipgouverneur@gmx.de].(mailto:philipgouverneur@gmx.de)
+All help is welcome and needed! Feel free to open pull requests and contact us via email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
 
 # Report issues or problems with the software
 You are welcome to open issues here directly on GitHub, or contact us by email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
