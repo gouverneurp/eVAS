@@ -9,7 +9,7 @@ set -e
 
 # installs pandac 3.1.6.2 (AMD64)
 function install_pandoc() {
-    echo "Try to install pandoc it..."
+    echo "Try to install pandoc (3.1.6.2)..."
     wget https://github.com/jgm/pandoc/releases/download/3.1.6.2/pandoc-3.1.6.2-1-amd64.deb
     dpkg -i pandoc-3.1.6.2-1-amd64.deb
     rm pandoc-3.1.6.2-1-amd64.deb
@@ -43,7 +43,7 @@ apt-get install -y texlive-full
 # clone the repository with build tools if not already done
 git_folder="inara"
 if [ ! -d "$git_folder" ] ; then
-    echo "Cloning INARA git..."
+    echo "Cloning INARA from GitHub..."
     git clone https://github.com/openjournals/inara.git
 fi
 
@@ -54,7 +54,7 @@ then
     echo "Pandoc is not installed."
     install_pandoc
 else
-    # if pandoc is insalled -> check version
+    # if pandoc is installed -> check version
     pandoc_version="$(pandoc --version)" 
     pandoc_version=${pandoc_version#*pandoc }   # remove prefix ending in "pandoc "
     pandoc_version=${pandoc_version%Features*}  # remove suffix starting with "Features"
@@ -63,7 +63,7 @@ else
     if ! [ "$pandoc_version" = "3.1.6.2" ];
     then
         echo "Wrong pandoc version is currently installed."
-        echo "Pandoc version":
+        echo "Current installed pandoc version":
         echo $pandoc_version
         install_pandoc
     else
