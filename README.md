@@ -22,11 +22,11 @@ Possible errors are logged in a *log.txt* file.
 # How to use
 
 ## Standalone
-To simply use the **eVAS** you can download the latest release and start it without installing further requirements. To do so, follow the the instructions:
-- Simple visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
-- Download the standalone **eVAS** software ('*eVAS.exe*' for windows)
-- Start the application
-- (If a the following message from windows defender occurs, run the software by: )
+To use **eVAS** easily, you can download the latest version and run it without any further requirements. Just follow the instructions:
+- Just visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
+- Download the **eVAS** standalone software ('*eVAS.exe*' for Windows)
+- Launch the application
+- (If you see a message like the one below from Windows Defender, run the software anyway by following these steps: )
 
 First step                 |  Second step
 :-------------------------:|:-------------------------:
@@ -49,8 +49,8 @@ If you want to run **eVAS** as a Python script, debug or contribute, please run 
     ```bash 
     git clone https://github.com/gouverneurp/eVAS.git
     ```
-- Install Python (tested under [Python 3.12](https://www.python.org/downloads/release/python-3120/)).
-- Create a Python environment and activate it. 
+- Install Python (tested with [Python 3.12](https://www.python.org/downloads/release/python-3120/))
+- Create and activate a Python environment
 
     Windows:
     ```bash
@@ -67,41 +67,42 @@ If you want to run **eVAS** as a Python script, debug or contribute, please run 
     pip install -r requirements.txt
     ```
 
-- Run the eVAS:
+- Run **eVAS** via Python
     ```bash 
     python eVAS.py
     ```
 
-- Configure the *config.ini* to change the behaviour of the **eVAS**
+- Optionally configure the *config.ini* to change the behaviour of the **eVAS**
 
 # Build executables
 
-Just run the appropriate scripts to build the executables. The scripts themselves use _pyinstaller_ internally. Cross-platform building is not supported, so if you want to build the Windows application, run it under Windows.
+Just run the appropriate scripts to build the executables. The scripts themselves use _pyinstaller_ internally. Cross-platform building is not supported, so if you want to build the Windows application, run it on Windows.
 
 For Windows use the [create_vas_exe.ps1](scripts/create_vas_exe.ps1) script: 
 ```bash 
 .\scripts\create_vas_exe.ps1
 ```
 
-For ubuntu use the [create_ubuntu_app.sh](scripts/create_ubuntu_app.sh) script:
+For Ubuntu use the [create_ubuntu_app.sh](scripts/create_ubuntu_app.sh) script:
 ```bash 
 ./scripts/create_ubuntu_app.sh
 ```
 
-For Mac use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
+For MacOS use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
 ```bash 
 ./scripts/create_mac_app.sh
 ```
 
 # How to contribute to the software
-All help is welcomed and needed! Feel free to open pull requests and to contact us by mail under [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de)
+All help is welcome and needed! Feel free to open pull requests and contact us via email at [philipgouverneur@gmx.de].(mailto:philipgouverneur@gmx.de)
 
 # Report issues or problems with the software
-You are welcomed to open issues here directly on GitHub or contact us by mail under [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de)
+You are welcome to open issues here directly on GitHub, or contact us by email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
 
 # Used resources
-The icon of the application (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free for use and can be found under following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
+The application icon (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free to use and can be found at the following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
 
+<a href="https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais">Created by Muhammad_Usman</a>
 <!---TODO:
 # Please cite our paper if you use our software or code:
 ```bibtex
