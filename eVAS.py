@@ -162,7 +162,7 @@ def create_config():
     config.set("devices", "move_while_down", "False")
     config.set("devices", "# Whether to use the mouse (slider does not move with keys anymore). Should be: True/False")
     config.set("devices", "use_mouse", "False")
-    config.set("devices", "# Whether to update only on mouse click (only has an effect if 'use_mouse' is 'True'.). Should be: True/False")
+    config.set("devices", "# Whether to update only on mouse click (only has an effect if 'use_mouse' is 'True'). Should be: True/False")
     config.set("devices", "on_click", "False")
 
     config.add_section("keys")
