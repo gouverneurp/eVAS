@@ -162,6 +162,8 @@ def create_config():
     config.set("devices", "move_while_down", "False")
     config.set("devices", "# Whether to use the mouse (slider does not move with keys anymore). Should be: True/False")
     config.set("devices", "use_mouse", "False")
+    config.set("devices", "# Whether to update only on mouse click (only has an effect if 'use_mouse' is 'True'.). Should be: True/False")
+    config.set("devices", "on_click", "False")
 
     config.add_section("keys")
     config.set("keys", "# The following section is used to defined the keys.")
@@ -199,6 +201,8 @@ def create_config():
     config.set("appearance", "use_two_triangle", "False")
     config.set("appearance", "# Welcome message that is displayed at the beginning. Usually, you do not want to change this.")
     config.set("appearance", "welcome_message", f"Press space to start. You can configure '{config_file_name}' to change the eVAS.")
+    config.set("appearance", "# Whether to hide the slider until first user interaction. Should only be used with 'use_mouse' set to 'True'. Should be: True/False.")
+    config.set("appearance", "hide_slider", "False")
 
     config.add_section("csv")
     config.set("csv", "# Delimiter used in the CSV output file, for example ';'.")
@@ -302,7 +306,11 @@ def eval_config(config):
 # CoVAS
 class Covas(tk.Frame):
     def __init__(self, callback, master=None, *args, **kwargs):
-        super().__init__(master, cursor='none', background="white")
+
+        on_click = eval(config["devices"]["on_click"])
+        # set a visible cursor if interact by mouse click, otherwise set cursor invisible
+        cursor = "target" if on_click else "none"
+        super().__init__(master, cursor= cursor, background="white")
         self.pack(fill=BOTH, expand=True)
         self.focus_set()
         self.callback = callback
@@ -340,6 +348,7 @@ class Slider(tk.Canvas):
             self.use_mouse = eval(config["devices"]["use_mouse"])
             self.move_while_down = eval(config["devices"]["move_while_down"])
             self.trigger_thermode = eval(config["devices"]["trigger_thermode"])
+            self.on_click = eval(config["devices"]["on_click"])
 
             self.keys_start = eval(config["keys"]["keys_start"])
             self.keys_end = eval(config["keys"]["keys_end"])
@@ -357,6 +366,7 @@ class Slider(tk.Canvas):
             self.slider_height = eval(config["appearance"]["slider_height"])
             self.slider_color = eval(config["appearance"]["slider_color"])
             self.welcome_message = config["appearance"]["welcome_message"]
+            self.hide_slider = eval(config["appearance"]["hide_slider"])
         except Exception as e:
             throw_config_error(e)
 
@@ -370,7 +380,10 @@ class Slider(tk.Canvas):
         self.bind('<Configure>', self.update_size)
 
         if self.use_mouse:
-            self.bind('<Motion>', self.update_mouse)
+            if self.on_click:
+                self.bind('<ButtonRelease-1>', self.update_mouse)
+            else:
+                self.bind('<Motion>', self.update_mouse)
 
         if self.trigger_thermode:
             self.com = get_com()
@@ -429,12 +442,12 @@ class Slider(tk.Canvas):
 
         # visualize the slider background
         self.delete('all')
-        gradient_w, gradient_h = int(w*(1-2*xpad)+.5), int(h*(1-2*ypad)*gradh)
+        self.gradient_w, gradient_h = int(w*(1-2*xpad)+.5), int(h*(1-2*ypad)*gradh)
         gradient_y = h*(ypad+(1-2*ypad))*gradfac
         if self.use_image:
             image_path = self.get_image_path()
             im = PIL.Image.open(image_path)
-            gradient_img = im.resize((gradient_w, gradient_h), PIL.Image.Resampling.BILINEAR)
+            gradient_img = im.resize((self.gradient_w, gradient_h), PIL.Image.Resampling.BILINEAR)
         else:
             if self.mid_color is None:
                 gradient_img = PIL.Image.new('RGB', (2,1))
@@ -447,7 +460,7 @@ class Slider(tk.Canvas):
                 pixel[0,0] = self.left_color
                 pixel[1,0] = self.mid_color
                 pixel[2,0] = self.right_color
-            gradient_img = gradient_img.resize((gradient_w, gradient_h), PIL.Image.Resampling.BILINEAR)
+            gradient_img = gradient_img.resize((self.gradient_w, gradient_h), PIL.Image.Resampling.BILINEAR)
         self.gradient_img_tk = PIL.ImageTk.PhotoImage(gradient_img, master=self)
         self.gradient_tk = self.create_image(w/2, gradient_y, anchor=CENTER, image=self.gradient_img_tk)
 
@@ -488,16 +501,21 @@ class Slider(tk.Canvas):
             if self.numbers:
                 self.create_text(x, y1, text=i, font=('DejaVu',48,'bold'), anchor=N, fill='black')
 
-        # visualize the slider itself
+        # create slider already if it should not be invisible at the start
+        if not self.hide_slider:
+            self.create_slider()
+
+        # create welcome message text
+        message = f"{self.welcome_message}"
+        self.start_text_id = self.create_text(w//2, 20, text=message, font=('DejaVu',32), anchor=CENTER, justify='center', fill='black')
+
+    def create_slider(self):
         val = self.slider_value
         self.slider_img = PIL.Image.new('RGBA', (1,1), self.slider_color)
         self.slider_img = self.slider_img.resize((self.slider_width, self.slider_height), PIL.Image.Resampling.NEAREST)
         self.slider_img_tk = PIL.ImageTk.PhotoImage(self.slider_img, master=self)
-        slider_x, slider_y = w*((1-val)*xpad+val*(1-xpad)), h*(ypad+(1-2*ypad))*gradfac
+        slider_x, slider_y = self.w*((1-val)*xpad+val*(1-xpad)), self.h*(ypad+(1-2*ypad))*gradfac
         self.slider_tk = self.create_image(slider_x, slider_y, anchor=CENTER, image=self.slider_img_tk)
-
-        message = f"{self.welcome_message}"
-        self.start_text_id = self.create_text(w//2, 20, text=message, font=('DejaVu',32), anchor=CENTER, justify='center', fill='black')
 
     def key_release(self, key):
         """Function triggered on a key release.
@@ -582,19 +600,25 @@ class Slider(tk.Canvas):
         Args:
             event (event): The mouse move event.
         """
-        if self.started:
-            new_value = (event.x/event.widget.winfo_width()) * (self.range[1] - self.range[0]) + self.range[0]
-            self.slider_value = np.clip(new_value, self.range[0], self.range[1])
+        if  not self.started:
+            return
 
-            if self.only_on_change:
-                self.callback(self.slider_value, self.start_time)
+        if not hasattr(self, 'slider_tk'):
+            self.create_slider()
+
+        # calculate new calue depending on the mouse position in relation to the slide
+        new_value = ((event.x - (self.w * xpad)) / self.gradient_w) * (self.range[1] - self.range[0]) + self.range[0]
+        # clip the value to the allowed range
+        new_value = np.clip(new_value, self.range[0], self.range[1])
+        # limit the value to the allowed ranges - round to nearest multiple of 'step_size'
+        self.slider_value = round(new_value / self.step_size) * self.step_size
+
+        if self.only_on_change:
+            self.callback(self.slider_value, self.start_time)
 
     def update_slider(self):
         """Visualize the slider movement.
         """
-        # if the background and slider are not initialized
-        if not hasattr(self, 'slider_tk') or not self.master.master.running:
-            return
 
         normalized_val = (self.slider_value - self.range[0]) / (self.range[1] - self.range[0])
 
@@ -603,9 +627,13 @@ class Slider(tk.Canvas):
             self.delete(self.start_text_id)
 
             # move cursor to location of slider
-            x= int(self.master.master.winfo_width() * normalized_val)
+            x= int((self.w * xpad) + (self.gradient_w * normalized_val))
             y= int(self.master.master.winfo_height()//2)
             pyautogui.moveTo(x + self.master.master.monitor.x, y)
+
+        # if the background and slider are not initialized
+        if not hasattr(self, 'slider_tk') or not self.master.master.running:
+            return
 
         # place the slider accordingly
         w,h,f = self.winfo_width(), self.winfo_height(), normalized_val
