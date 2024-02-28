@@ -163,6 +163,5 @@ cython_debug/
 *.csv
 log.txt
 /config.ini
-image.*
 *.exe
 inara/
