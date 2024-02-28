@@ -527,7 +527,7 @@ class Slider(tk.Canvas):
             key (Key): The pressed/released key.
         """
         if (key in self.keys_start):
-            if  not self.started:
+            if not self.started:
                 self.started = True
                 self.start_time = time.time()
 
