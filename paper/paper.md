@@ -115,6 +115,7 @@ A text file ('config.ini') can be used to change the behaviour and appearance of
 |  devices   | trigger_thermode  |      bool      |            False             | Whether to trigger the thermode (QST.LAB TCS2).                                |
 |            |  move_while_down  |      bool      |            False             | Whether to move the slider while the button is held down.                      |
 |            |     use_mouse     |      bool      |            False             | Whether to use the mouse (slider does not move with keys anymore).             |
+|            |     on_click      |      bool      |            False             | Whether to update only on mouse click.                                         |
 |    keys    |    keys_start     |      list      |        `[Key.space]`         | Keys to start the recording.                                                   |
 |            |     keys_end      |      list      |     `[Key.esc, Key.end]`     | Keys to end the recording.                                                     |
 |            |     keys_left     |      list      |  `[Key.left, Key.page_up]`   | Keys to move the slider left.                                                  |
@@ -130,6 +131,7 @@ A text file ('config.ini') can be used to change the behaviour and appearance of
 |            |   use_triangle    |      bool      |            False             | Use a triangle instead of a square for the background.                         |
 |            | use_two_triangle  |      bool      |            False             | Use a decreasing & increasing triangle instead of a square for the background. |
 |            |  welcome_message  |     string     |                              | Welcome message that is displayed at the beginning.                            |
+|            |    hide_slider    |      bool      |            False             | Whether to hide the slider until first user interaction.                       |
 |    csv     |     delimiter     |     string     |              ;               | Delimiter used in the CSV output file.                                         |
 |            |   decimal_point   |     string     |              ,               | Decimal point used in the CSV output file.                                     |
 |            |  decimal_places   |      int       |              4               | Number of digits after the decimal point for the slider values saved.          |
