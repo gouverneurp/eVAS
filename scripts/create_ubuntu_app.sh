@@ -1,5 +1,30 @@
 #!/bin/bash
 
+function wait_until_free() {
+    i=0
+    tput sc
+    while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 2>&1; do
+        case $(($i % 4)) in
+            0 ) j="-" ;;
+            1 ) j="\\" ;;
+            2 ) j="|" ;;
+            3 ) j="/" ;;
+        esac
+        tput rc
+        echo -en "\r[$j] Waiting for other software managers to finish..." 
+        sleep 0.5
+        ((i=i+1))
+    done 
+}
+
+function install() {
+    echo "Try to install '$1'..."
+    wait_until_free
+    sudo apt-get install "$1" -y
+    echo "Finished installation."
+    echo "____________________________________"
+}
+
 # stop on error
 set -e
 
@@ -11,7 +36,9 @@ rm -rf build dist/*
 
 # Install needed dependencies
 sudo apt-get update
-sudo apt-get install python3-venv python3-dev python3-tk -y
+install python3-venv 
+install python3-dev 
+install python3-tk
 
 printf "Creating virtual environment...\n\n"
 python3 -m venv venv

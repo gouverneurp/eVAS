@@ -7,6 +7,33 @@ set -e
 # Functions                                                #
 ############################################################
 
+# blocking function that waits until "apt install" can be performed
+function wait_until_free() {
+    i=0
+    tput sc
+    while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 2>&1; do
+        case $(($i % 4)) in
+            0 ) j="-" ;;
+            1 ) j="\\" ;;
+            2 ) j="|" ;;
+            3 ) j="/" ;;
+        esac
+        tput rc
+        echo -en "\r[$j] Waiting for other software managers to finish..." 
+        sleep 0.5
+        ((i=i+1))
+    done 
+}
+
+# helper function that installs ubuntu packages but waits for other software managers to finish beforehand
+function install() {
+    echo "Try to install '$1'..."
+    wait_until_free
+    apt-get install "$1" -y
+    echo "Finished installation."
+    echo "____________________________________"
+}
+
 # installs pandac 3.1.6.2 (AMD64)
 function install_pandoc() {
     echo "Try to install pandoc (3.1.6.2)..."
@@ -34,11 +61,13 @@ if [ "$(id -u)" -ne 0 ]; then echo "Please run as root." >&2; exit 1; fi
 # install dependencies
 echo "Installing dependencies..."
 apt-get update -y
-apt-get install git wget make fonts-hack-ttf -y
+install git 
+install wget 
+install make 
+install fonts-hack-ttf
 
 # install lexlive-full
-echo "Installing texlive-full..."
-apt-get install -y texlive-full
+install texlive-full
 
 # clone the repository with build tools if not already done
 git_folder="inara"
