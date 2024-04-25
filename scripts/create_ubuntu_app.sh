@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# stop on error
+set -e
+
 cd "$(dirname "$0")"
 
 cd ..
