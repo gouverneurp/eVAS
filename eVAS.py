@@ -606,7 +606,7 @@ class Slider(tk.Canvas):
         if not hasattr(self, 'slider_tk'):
             self.create_slider()
 
-        # calculate new calue depending on the mouse position in relation to the slide
+        # calculate new value depending on the mouse position in relation to the slide
         new_value = ((event.x - (self.w * xpad)) / self.gradient_w) * (self.range[1] - self.range[0]) + self.range[0]
         # clip the value to the allowed range
         new_value = np.clip(new_value, self.range[0], self.range[1])
