@@ -211,6 +211,8 @@ def create_config():
     config.set("csv", "decimal_point", ",")
     config.set("csv", "# Number of digits after the decimal point for the slider values saved.")
     config.set("csv", "decimal_places", "4")
+    config.set("csv", "# Whether to save the used config at the beginning of the CSV file.")
+    config.set("csv", "save_config_in_csv", "False")
 
     return config
 
@@ -650,6 +652,7 @@ class vas_thread(threading.Thread):
             self.delimiter = config["csv"]["delimiter"]
             self.decimal_point = config["csv"]["decimal_point"]
             self.decimal_places = int(config["csv"]["decimal_places"])
+            self.save_config_in_csv = eval(config["csv"]["save_config_in_csv"])
         except Exception as e:
             throw_config_error(e)
 
@@ -662,6 +665,12 @@ class vas_thread(threading.Thread):
                 assert f_output is not None
 
                 if f_output.tell() == 0:
+                    if self.save_config_in_csv:
+                        with open(config_file_name) as f:
+                            lines = f.readlines()
+                            for line in lines:
+                                f_output.write(line)
+
                     f_output.write(f'secs{self.delimiter}values\n')
                 else:
                     f_output.write('\n')
