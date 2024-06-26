@@ -199,8 +199,8 @@ def create_config():
     config.set("appearance", "use_triangle", "False")
     config.set("appearance", "# Use a decreasing and an increasing triangle instead of a square for the background. Should be: True/False.")
     config.set("appearance", "use_two_triangle", "False")
-    config.set("appearance", "# Welcome message that is displayed at the beginning. Usually, you do not want to change this.")
-    config.set("appearance", "welcome_message", f"Press space to start. You can configure '{config_file_name}' to change the eVAS.")
+    config.set("appearance", "# Welcome message that is displayed at the beginning. Should be list of Strings. Each element of the list is separated by a line break.")
+    config.set("appearance", "welcome_message", '["Press space to start.", f"You can configure {config_file_name} to change the eVAS."]')
     config.set("appearance", "# Whether to hide the slider until first user interaction. Should only be used with 'use_mouse' set to 'True'. Should be: True/False.")
     config.set("appearance", "hide_slider", "False")
 
@@ -365,7 +365,7 @@ class Slider(tk.Canvas):
             self.slider_width = eval(config["appearance"]["slider_width"])
             self.slider_height = eval(config["appearance"]["slider_height"])
             self.slider_color = eval(config["appearance"]["slider_color"])
-            self.welcome_message = config["appearance"]["welcome_message"]
+            self.welcome_message = "\n".join(eval(config["appearance"]["welcome_message"]))
             self.hide_slider = eval(config["appearance"]["hide_slider"])
         except Exception as e:
             throw_config_error(e)
@@ -506,8 +506,7 @@ class Slider(tk.Canvas):
             self.create_slider()
 
         # create welcome message text
-        message = f"{self.welcome_message}"
-        self.start_text_id = self.create_text(w//2, 20, text=message, font=('DejaVu',32), anchor=CENTER, justify='center', fill='black')
+        self.start_text_id = self.create_text(w//2, h//4, text=self.welcome_message, font=('DejaVu',32), anchor=CENTER, justify='center', fill='black')
 
     def create_slider(self):
         val = self.slider_value
