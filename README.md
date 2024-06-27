@@ -43,7 +43,7 @@ Cold hot scale             |  Custom image scale
 <picture><img src="examples/default/screenshot.png?raw=true" width="400"/></picture>  |  <picture><img src="examples/simplified_faces_pain_scale/screenshot.png?raw=true" width="400"/></picture>
 
 ## Python
-If you want to run **eVAS** as a Python script, debug or contribute, please run the following commands:
+If you want to run **eVAS** as a Python script in the command line, debug or contribute, please run the following commands:
 
 - Clone the project
     ```bash 
@@ -76,7 +76,7 @@ If you want to run **eVAS** as a Python script, debug or contribute, please run 
 
 # Build executables
 
-Just run the appropriate scripts to build the executables. The scripts themselves use _pyinstaller_ internally. Cross-platform building is not supported, so if you want to build the Windows application, run it on Windows.
+If you want to build standalone executables based on your own custom code, please run the following script for your operating system. The scripts themselves use _pyinstaller_ internally. Cross-platform building is not supported, so if you want to build the Windows application, run it on Windows.
 
 For Windows use the [create_vas_exe.ps1](scripts/create_vas_exe.ps1) script: 
 ```bash 
