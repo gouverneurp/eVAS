@@ -504,7 +504,8 @@ class Slider(tk.Canvas):
             if self.vertical_lines:
                 self.create_line(*[x,y0, x,y1], fill='#000000', width=3)
             if self.numbers:
-                self.create_text(x, y1, text=i, font=('DejaVu',self.number_size,'bold'), anchor=N, fill='black')
+                value = str(round(i, 2)).rstrip('0').rstrip('.')
+                self.create_text(x, y1, text= value, font=('DejaVu', self.number_size, 'bold'), anchor=N, fill='black')
 
         # create slider already if it should not be invisible at the start
         if not self.hide_slider:
