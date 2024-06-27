@@ -154,6 +154,8 @@ def create_config():
     config.set("scale", "vertical", "False")
     config.set("scale", "# Whether to plot numbers below the lines. Should be: True/False")
     config.set("scale", "numbers", "False")
+    config.set("scale", "# Font size of the defined numbers below the scale.")
+    config.set("scale", "number_size", "32")
 
     config.add_section("devices")
     config.set("devices", "# Whether to trigger the thermode (QST.LAB TCS2). Should be: True/False")
@@ -344,6 +346,7 @@ class Slider(tk.Canvas):
             self.labels = eval(config["scale"]["anchors"])
             self.label_size = eval(config["scale"]["label_size"])
             self.numbers = eval(config["scale"]["numbers"])
+            self.number_size = eval(config["scale"]["number_size"])
             self.vertical_lines = eval(config["scale"]["vertical"])
             self.step_size = eval(config["scale"]["step_size"])
 
@@ -501,7 +504,7 @@ class Slider(tk.Canvas):
             if self.vertical_lines:
                 self.create_line(*[x,y0, x,y1], fill='#000000', width=3)
             if self.numbers:
-                self.create_text(x, y1, text=i, font=('DejaVu',48,'bold'), anchor=N, fill='black')
+                self.create_text(x, y1, text=i, font=('DejaVu',self.number_size,'bold'), anchor=N, fill='black')
 
         # create slider already if it should not be invisible at the start
         if not self.hide_slider:
