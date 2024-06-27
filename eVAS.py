@@ -158,7 +158,7 @@ def create_config():
     config.set("scale", "number_size", "32")
 
     config.add_section("devices")
-    config.set("devices", "# Whether to trigger the thermode (QST.LAB TCS2). Should be: True/False")
+    config.set("devices", "# Whether to send a signal to trigger a 'QST.LAB TCS2' thermode when the eVAS is recording. Only works on Windows. Should be: True/False")
     config.set("devices", "trigger_thermode", "False")
     config.set("devices", "# Moving the slider not only when the button is released, but also while the button is held down. Should be: True/False")
     config.set("devices", "move_while_down", "False")
@@ -390,7 +390,7 @@ class Slider(tk.Canvas):
             else:
                 self.bind('<Motion>', self.update_mouse)
 
-        if self.trigger_thermode:
+        if (self.trigger_thermode) and (sys.platform == 'win32'):
             self.com = get_com()
 
         #-------------------------------------------------------------------------------------------------------
