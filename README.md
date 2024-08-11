@@ -64,7 +64,7 @@ First step                 |  Second step
 
 Cold hot scale             |  Custom image scale
 :-------------------------:|:-------------------------:
-<picture><a href="eVAS/tree/main/examples/cold_hot_scale/"><img src="examples/cold_hot_scale/screenshot.png?raw=true" width="400"/></a></picture>  |  <picture><img src="examples/custom_image_scale/screenshot.png?raw=true" width="400"/></picture>
+<picture><a href="eVAS/tree/main/examples/cold_hot_scale/"><img src="examples/cold_hot_scale/screenshot.png?raw=true" width="400"/></a></picture>  |  <picture href="eVAS/tree/main/examples/cold_hot_scale/"><img src="examples/custom_image_scale/screenshot.png?raw=true" width="400"/></picture>
 **Default**                |  **Simplified faces pain scale**
 <picture><img src="examples/default/screenshot.png?raw=true" width="400"/></picture>  |  <picture><img src="examples/simplified_faces_pain_scale/screenshot.png?raw=true" width="400"/></picture>
 
