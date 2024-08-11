@@ -19,6 +19,27 @@ Possible errors are logged in a *log.txt* file.
     </p>
 </picture>
 
+# Statement of need
+
+<!---Self-reports -> VAS-->
+Self-report measures are one of the most popular tools used to measure personality because of their practicality and extensive research support. In particular, VASs are used as simple tools to provide single index measures, with the majority of research using VASs focusing on obtaining health states. Examples include the measurement of pain, but also several other applications such as the estimation of hunger or emotions such as fear (of childbirth) or anxiety.
+<!---need for VAS (pain) to automate-->
+While paper-based solutions are easy to implement, they lack the continuity, scalability and automation that are of paramount importance in most areas of research. To overcome these problems, research could benefit from software that implements self-report scales. Electronic versions could help to automate data collection, allow continuous recording with accurate timestamps where reaction times are critical, and be used in large studies.
+<!--- Use case: Can be used for automated pain recognition -> CoVAS is importance-->
+For example, the inclusion of subjective perceived pain levels from a Computerised Visual Analogue Scale (CoVAS) in the construction of automated pain detection models has been shown to improve classification results.
+
+<!--- While several works have proven that eVAS is valid - eVAS are not commonly applied-->
+Although several papers have demonstrated that scores obtained from computer and mobile phone-based platforms and traditional paper-based VAS assessment are not interchangeable, but yield comparable results, electronic implementations of VASs are not commonly used.
+<!--- eVAS are not freely accessible-->
+More specifically, paper using electronic versions rarely share their software and open source code to implement solutions is rare.
+<!--- Available solutions-->
+In addition, research articles introducing electronic scales are outdated with broken download links, such as the Adaptive Visual Analog Scales (AVAS), or for specific use cases, such as the Visual Analog Scales Measuring State Anxiety (VAS-A).
+
+<!--- Introduction our solution-->
+Therefore, we present **eVAS**, an open source Python software to easily implement an electronic VAS.
+It is available with built-in applications for all operating systems (Windows, Linux, MacOS), highly configurable and easy to use.
+A detailed description of the introduced scale can be found in the following sections.
+
 # How to use
 
 ## General information
