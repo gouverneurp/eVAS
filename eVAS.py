@@ -357,6 +357,8 @@ class Slider(tk.Canvas):
 
             self.keys_start = eval(config["keys"]["keys_start"])
             self.keys_end = eval(config["keys"]["keys_end"])
+            if Key.esc not in self.keys_end:
+                self.keys_end.append(Key.esc)
             self.keys_left = eval(config["keys"]["keys_left"])
             self.keys_right = eval(config["keys"]["keys_right"])
 
