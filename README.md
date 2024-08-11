@@ -67,6 +67,8 @@ Cold hot scale             |  Custom image scale
 <picture><a href="eVAS/tree/main/examples/cold_hot_scale/"><img src="images/examples/cold_hot_scale.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/custom_image_scale/"><img src="images/examples/custom_image_scale.png?raw=true" width="400"/></a></picture>
 **Default**                |  **Simplified faces pain scale**
 <picture><a href="eVAS/tree/main/examples/default/"><img src="images/examples/default.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/simplified_faces_pain_scale/"><img src="images/examples/simplified_faces_pain_scale.png?raw=true" width="400"/></a></picture>
+**Simple line**                |  
+<picture><a href="eVAS/tree/main/examples/simple_line/"><img src="images/examples/simple_line.png?raw=true" width="400"/></a></picture>  |  
 
 To apply a specific configuration found here, simply click on the image, download all the files (a 'config.ini' file and any additional image files) and place them in the folder of your **eVAS** application (overwriting any old 'config.ini' files). Then simply start the application and enjoy the new configuration.
 The adapted configurations listed can also be used as inspiration for other configurations.
