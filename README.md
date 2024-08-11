@@ -64,9 +64,12 @@ First step                 |  Second step
 
 Cold hot scale             |  Custom image scale
 :-------------------------:|:-------------------------:
-<picture><a href="eVAS/tree/main/examples/cold_hot_scale/"><img src="examples/cold_hot_scale/screenshot.png?raw=true" width="400"/></a></picture>  |  <picture href="eVAS/tree/main/examples/cold_hot_scale/"><img src="examples/custom_image_scale/screenshot.png?raw=true" width="400"/></picture>
+<picture><a href="eVAS/tree/main/examples/cold_hot_scale/"><img src="examples/cold_hot_scale/screenshot.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/custom_image_scale/"><img src="examples/custom_image_scale/screenshot.png?raw=true" width="400"/></a></picture>
 **Default**                |  **Simplified faces pain scale**
-<picture><img src="examples/default/screenshot.png?raw=true" width="400"/></picture>  |  <picture><img src="examples/simplified_faces_pain_scale/screenshot.png?raw=true" width="400"/></picture>
+<picture><a href="eVAS/tree/main/examples/default/"><img src="examples/default/screenshot.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/simplified_faces_pain_scale/"><img src="examples/simplified_faces_pain_scale/screenshot.png?raw=true" width="400"/></a></picture>
+
+To apply a specific configuration found here, simply click on the image, download all the files (a 'config.ini' file and any additional image files) and place them in the folder of your **eVAS** application (overwriting any old 'config.ini' files). Then simply start the application and enjoy the new configuration.
+The adapted configurations listed can also be used as inspiration for other configurations.
 
 ## Python
 If you want to run **eVAS** as a Python script in the command line, debug or contribute, please run the following commands:
