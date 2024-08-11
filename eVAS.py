@@ -546,6 +546,11 @@ class Slider(tk.Canvas):
         Args:
             key (Key): The released key.
         """
+        # reduce crashes on mac os when caps lock is pressed
+        if (sys.platform == "darwin") and (key == Key.caps_lock):
+            time.sleep(0.05)
+            return
+
         self.check_start(key)
         self.check_move(key)
 
@@ -555,6 +560,11 @@ class Slider(tk.Canvas):
         Args:
             key (Key): The pressed key.
         """
+        # reduce crashes on mac os when caps lock is pressed
+        if (sys.platform == "darwin") and (key == Key.caps_lock):
+            time.sleep(0.05)
+            return
+
         self.check_start(key)
         if self.move_while_down:
             self.check_move(key)
