@@ -57,6 +57,19 @@ try:
 except Exception as e:
     logging.exception(f"Import error: '{e}'.")
 
+
+def get_key_string(x):
+    # get string and remove "Key."
+    x = [str(i).replace("Key.", "") for i in x]
+    if len(x) == 1:
+        return x[0]
+    if len(x) == 2:
+        return x[0] + " or " + x[1]
+    if len(x) > 2:
+        x = [el if ((i+1)==len(x)) else el+"," for i, el in enumerate(x)]
+        x.insert(len(x)-1, 'or')
+        return " ".join(x)
+
 def try_delete_log_file():
     """If empty, tries to delete the logging file. Upon error, only prints the error to the console. 
     """
@@ -202,7 +215,7 @@ def create_config():
     config.set("appearance", "# Use a decreasing and an increasing triangle instead of a square for the background. Should be: True/False.")
     config.set("appearance", "use_two_triangle", "False")
     config.set("appearance", "# Welcome message that is displayed at the beginning. Should be list of Strings. Each element of the list is separated by a line break.")
-    config.set("appearance", "welcome_message", '["Press space to start.", f"You can configure {config_file_name} to change the eVAS."]')
+    config.set("appearance", "welcome_message", '[f"Press {get_key_string(self.keys_start)} to start.", f"You can configure {config_file_name} to change the eVAS.", f"The application can be exited at any time by pressing {get_key_string(self.keys_end)}."]')
     config.set("appearance", "# Whether to hide the slider until first user interaction. Should only be used with 'use_mouse' set to 'True'. Should be: True/False.")
     config.set("appearance", "hide_slider", "False")
 

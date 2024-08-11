@@ -21,6 +21,11 @@ Possible errors are logged in a *log.txt* file.
 
 # How to use
 
+## General information
+**eVAS** is an easy-to-use visual analogue scale. Use the *config.ini* file to change the behaviour and appearance of the application. On startup, **eVAS** waits for a specific keystroke (space bar by default) to begin recording the visual analogue scale values continuously. Input can be configured for mouse and keyboard and is recorded at specific time intervals (frequency) or on value change. The application can be exited at any time by pressing Escape. The recorded data stream is automatically saved as a CSV file in the same directory as the application. An example recording may look as follows:
+
+![alt text](images/example_csv.png)
+
 ## Standalone
 To use **eVAS** easily, you can download the latest version and run it without any further requirements. Just follow the instructions:
 - Just visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
