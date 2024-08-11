@@ -163,8 +163,8 @@ def create_config():
     config.set("scale", "start", "0")
     config.set("scale", "# Step size to move the slider whenever a key is released.")
     config.set("scale", "step_size", "0.02")
-    config.set("scale", "# Whether to plot vertical lines for each anchor. Should be: True/False")
-    config.set("scale", "vertical", "False")
+    config.set("scale", "# Height of vertical lines for each anchor. Can be 0 to not draw any vertical lines.")
+    config.set("scale", "vertical_line_height", "0")
     config.set("scale", "# Whether to plot numbers below the lines. Should be: True/False")
     config.set("scale", "numbers", "False")
     config.set("scale", "# Font size of the defined numbers below the scale.")
@@ -210,6 +210,8 @@ def create_config():
     config.set("appearance", "right_color", "(64,64,64)")
     config.set("appearance", "# Background color mid. Can also be disabled with 'None'.")
     config.set("appearance", "mid_color", "None")
+    config.set("appearance", "# Height of the line the slider moves on.")
+    config.set("appearance", "line_height", "128")
     config.set("appearance", "# Use a triangle instead of a square for the background. Should be: True/False.")
     config.set("appearance", "use_triangle", "False")
     config.set("appearance", "# Use a decreasing and an increasing triangle instead of a square for the background. Should be: True/False.")
@@ -360,7 +362,7 @@ class Slider(tk.Canvas):
             self.label_size = eval(config["scale"]["label_size"])
             self.numbers = eval(config["scale"]["numbers"])
             self.number_size = eval(config["scale"]["number_size"])
-            self.vertical_lines = eval(config["scale"]["vertical"])
+            self.vertical_line_height = eval(config["scale"]["vertical_line_height"])
             self.step_size = eval(config["scale"]["step_size"])
 
             self.use_mouse = eval(config["devices"]["use_mouse"])
@@ -380,6 +382,7 @@ class Slider(tk.Canvas):
             self.left_color = eval(config["appearance"]["left_color"])
             self.right_color = eval(config["appearance"]["right_color"])
             self.mid_color = eval(config["appearance"]["mid_color"])
+            self.line_height = int(eval(config["appearance"]["line_height"]))
             self.use_triangle = eval(config["appearance"]["use_triangle"])
             self.use_two_triangle = eval(config["appearance"]["use_two_triangle"])
             self.slider_width = eval(config["appearance"]["slider_width"])
@@ -462,7 +465,7 @@ class Slider(tk.Canvas):
 
         # visualize the slider background
         self.delete('all')
-        self.gradient_w, gradient_h = int(w*(1-2*xpad)+.5), int(h*(1-2*ypad)*gradh)
+        self.gradient_w, gradient_h = int(w*(1-2*xpad)+.5), self.line_height
         gradient_y = h*(ypad+(1-2*ypad))*gradfac
         if self.use_image:
             image_path = self.get_image_path()
@@ -493,7 +496,6 @@ class Slider(tk.Canvas):
             self.upper_tk = self.create_image(w/2, h/4, anchor=CENTER, image=self.upper_img_tk)
 
         semi_line_height = gradient_h*linefac/2
-        y0,y1 = gradient_y-semi_line_height, gradient_y+semi_line_height
         xs = np.linspace(w*xpad, w*(1-xpad), 11)
 
         if self.use_two_triangle or self.use_triangle:
@@ -516,8 +518,9 @@ class Slider(tk.Canvas):
         y2 = (1-textfac)*gradient_y+semi_line_height + textfac*h*(1-ypad)
         for i, x, text in zip(np.linspace(start= self.range[0], stop= self.range[1], num=len(self.labels)), range(int(xs[0]), int(xs[-1]), int((xs[-1] -  xs[0]) // max((len(self.labels) - 1), 1)) - 1), self.labels):
             self.create_text(x, y2, text=text, font=('DejaVu',self.label_size), anchor=CENTER, justify='center', fill='black')
-            if self.vertical_lines:
-                self.create_line(*[x,y0, x,y1], fill='#000000', width=3)
+            # vertical lines
+            y0,y1 = gradient_y-self.vertical_line_height, gradient_y+self.vertical_line_height
+            self.create_line(*[x,y0, x,y1], fill='#000000', width=3)
             if self.numbers:
                 value = str(round(i, 2)).rstrip('0').rstrip('.')
                 self.create_text(x, y1, text= value, font=('DejaVu', self.number_size, 'bold'), anchor=N, fill='black')
