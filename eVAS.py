@@ -518,6 +518,7 @@ class Slider(tk.Canvas):
         y2 = (1-textfac)*gradient_y+semi_line_height + textfac*h*(1-ypad)
         offset = 20
         for i, x, text in zip(np.linspace(start= self.range[0], stop= self.range[1], num=len(self.labels)), range(int(xs[0]), int(xs[-1]), int((xs[-1] -  xs[0]) // max((len(self.labels) - 1), 1)) - 1), self.labels):
+            x += i 
             self.create_text(x, y2 + self.vertical_line_height + offset, text=text, font=('DejaVu',self.label_size), anchor=CENTER, justify='center', fill='black')
             # vertical lines
             y0,y1 = gradient_y-self.vertical_line_height, gradient_y+self.vertical_line_height
