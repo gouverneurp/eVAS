@@ -139,7 +139,7 @@ You are welcome to open issues here directly on GitHub, or contact us by email a
 # Used resources
 The application icon (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free to use and can be found at the following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
 
-<a href="https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais">Created by Muhammad_Usman</a>
+<a href="https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais">Created by Muhammad_Usman & Designed by Freepik</a> 
 <!---TODO:
 # Please cite our paper if you use our software or code:
 ```bibtex
