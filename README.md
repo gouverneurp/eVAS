@@ -43,7 +43,7 @@ A detailed description of the introduced scale can be found in the following sec
 # How to use
 
 ## General information
-**eVAS** is an easy-to-use visual analogue scale. Use the *config.ini* file to change the behaviour and appearance of the application. On startup, **eVAS** waits for a specific keystroke (space bar by default) to begin recording the visual analogue scale values continuously. Input can be configured for mouse and keyboard and is recorded at specific time intervals (frequency) or on value change. The application can be exited at any time by pressing Escape. The recorded data stream is automatically saved as a CSV file in the same directory as the application. An example recording may look as follows:
+**eVAS** is an easy-to-use visual analogue scale. Use the *config.ini* file to change the behaviour and appearance of the application. On startup, **eVAS** waits for a specific keystroke (space bar by default) to begin recording the visual analogue scale values continuously. Input can be configured for mouse and keyboard and is recorded at specified time intervals (frequency) or on value change. Values can also be recorded continuously in a range or in specified steps between two anchors with a fixed step size. The application can be exited at any time by pressing Escape. The recorded data stream is automatically saved as a CSV file in the same directory as the application. An example recording may look as follows:
 
 ![alt text](images/example_csv.png)
 
