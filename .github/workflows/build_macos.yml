@@ -25,7 +25,7 @@ jobs:
       - name: Create run.command file
         run: |
           echo 'cd "$(dirname "$0")"' > dist/run.command
-          echo 'xattr -d com.apple.quarantine ./eCAS.app' >> dist/run.command
+          echo 'xattr -d com.apple.quarantine ./eVAS.app' >> dist/run.command
           echo 'rm ./run.command' >> dist/run.command
           chmod +x dist/run.command
 
