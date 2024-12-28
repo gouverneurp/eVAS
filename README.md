@@ -132,7 +132,7 @@ All help is welcome and needed! Feel free to open pull requests and contact us v
 # Report issues or problems with the software
 You are welcome to open issues here directly on GitHub, or contact us by email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
 
-# Known Issues
+# Known issues
 
 - Pressing the Caps Lock key may cause the application to crash on certain versions of MacOS. This problem is known for eVAS and is strongly related to tkinter not working properly with pynput. The current solution is to avoid pressing the key on MacOS.
 
