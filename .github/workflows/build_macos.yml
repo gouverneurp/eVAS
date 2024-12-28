@@ -26,7 +26,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add dist/
+          git add -f dist/
           git commit -m "Add built application"
           git push
         env:
