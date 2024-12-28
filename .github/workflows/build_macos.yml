@@ -1,0 +1,33 @@
+name: Build MacOS Application
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Make create_mac_app.sh executable
+        run: chmod +x create_mac_app.sh
+
+      - name: Build application
+        run: ./create_mac_app.sh
+
+      - name: Commit built application
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add dist/
+          git commit -m "Add built application"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
