@@ -9,7 +9,7 @@
 </picture>
 
 This is the source code of the **e**lectronic **V**isual **A**nalogue **S**cale (**eVAS**).
-It is an open source, easy to use and user friendly slider that records the slider values and saves them to CSV files. The application is available for Windows, MacOS and Ubuntu ([information on how to use](https://github.com/gouverneurp/eVAS/tree/main?tab=readme-ov-file#standalone)).
+It is an open source, easy to use and user-friendly slider that records the slider values and saves them to CSV files. The application is available for Windows, MacOS and Ubuntu ([information on how to use](https://github.com/gouverneurp/eVAS/tree/main?tab=readme-ov-file#standalone)).
 The *config.ini* file can be edited to customise the **eVAS** to your needs. Examples of possible configurations can be found in the [examples](examples/) directory.
 Possible errors are logged in a *log.txt* file.
 
@@ -22,7 +22,7 @@ Possible errors are logged in a *log.txt* file.
 # Statement of need
 
 <!---Self-reports -> VAS-->
-Self-report measures are one of the most popular tools used to measure personality because of their practicality and extensive research support. In particular, VASs are used as simple tools to provide single index measures, with the majority of research using VASs focusing on obtaining health states. Examples include the measurement of pain, but also several other applications such as the estimation of hunger or emotions such as fear (of childbirth) or anxiety.
+Self-report measures are one of the most popular tools used to measure personality because of their practicality and extensive research support. In particular, VASs are used as simple tools to provide single index measures, with the majority of research using VASs focusing on obtaining health states. Examples include the measurement of pain, but also several other applications such as the estimation of hunger or emotions such as anxiety.
 <!---need for VAS (pain) to automate-->
 While paper-based solutions are easy to implement, they lack the continuity, scalability and automation that are of paramount importance in most areas of research. To overcome these problems, research could benefit from software that implements self-report scales. Electronic versions could help to automate data collection, allow continuous recording with accurate timestamps where reaction times are critical, and be used in large studies.
 <!--- Use case: Can be used for automated pain recognition -> CoVAS is importance-->
@@ -31,7 +31,7 @@ For example, the inclusion of subjective perceived pain levels from a Computeris
 <!--- While several works have proven that eVAS is valid - eVAS are not commonly applied-->
 Although several papers have demonstrated that scores obtained from computer and mobile phone-based platforms and traditional paper-based VAS assessment are not interchangeable, but yield comparable results, electronic implementations of VASs are not commonly used.
 <!--- eVAS are not freely accessible-->
-More specifically, paper using electronic versions rarely share their software and open source code to implement solutions is rare.
+More specifically, papers using electronic versions rarely share their software and open source code to implement solutions is rare.
 <!--- Available solutions-->
 In addition, research articles introducing electronic scales are outdated with broken download links, such as the Adaptive Visual Analog Scales (AVAS), or for specific use cases, such as the Visual Analog Scales Measuring State Anxiety (VAS-A).
 
