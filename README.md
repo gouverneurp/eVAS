@@ -9,7 +9,7 @@
 </picture>
 
 This is the source code of the **e**lectronic **V**isual **A**nalogue **S**cale (**eVAS**).
-It is an open source, easy to use and user friendly slider that records the slider values and saves them to CSV files.
+It is an open source, easy to use and user friendly slider that records the slider values and saves them to CSV files. The application is available for Windows, MacOS and Ubuntu ([information on how to use](https://github.com/gouverneurp/eVAS/tree/main?tab=readme-ov-file#standalone)).
 The *config.ini* file can be edited to customise the **eVAS** to your needs. Examples of possible configurations can be found in the [examples](examples/) directory.
 Possible errors are logged in a *log.txt* file.
 
