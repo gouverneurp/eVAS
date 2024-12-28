@@ -17,7 +17,7 @@ jobs:
           python-version: '3.12'
 
       - name: Make create_mac_app.sh executable
-        run: chmod +x create_mac_app.sh
+        run: chmod +x ./scripts/create_mac_app.sh
 
       - name: Build application
         run: ./scripts/create_mac_app.sh
