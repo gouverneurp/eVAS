@@ -139,7 +139,12 @@ You are welcome to open issues here directly on GitHub, or contact us by email a
 # Used resources
 The application icon (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free to use and can be found at the following [link](https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais).
 
-<a href="https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais">Created by Muhammad_Usman & Designed by Freepik</a> 
+<a href="https://de.freepik.com/icon/schlecht_10012613#fromView=search&term=pain+rating&page=1&position=16&track=ais">Created by Muhammad_Usman & Designed by Freepik</a>
+
+# Notes
+
+While **eVAS** helps to collect user feedback in a standardised way, the output of **eVAS** is highly dependent on your study design and standardised instructions to participants. In order to collect valid data that can be used for scientific research, please follow common standards for studies.
+
 <!---TODO:
 # Please cite our paper if you use our software or code:
 ```bibtex
