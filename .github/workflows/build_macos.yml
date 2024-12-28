@@ -1,4 +1,4 @@
-name: Build MacOS Application
+name: Build Python Application
 
 on:
   workflow_dispatch:
@@ -22,12 +22,24 @@ jobs:
       - name: Build application
         run: ./scripts/create_mac_app.sh
 
-      - name: Commit built application
+      - name: Create run.command file
+        run: |
+          echo 'cd "$(dirname "$0")"' > dist/run.command
+          echo 'xattr -d com.apple.quarantine ./eCAS.app' >> dist/run.command
+          echo 'rm ./run.command' >> dist/run.command
+          chmod +x dist/run.command
+
+      - name: Create ZIP archive
+        run: |
+          mkdir -p dist/macos
+          zip -r dist/macos/eVAS.zip dist/*
+
+      - name: Commit and push ZIP archive
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add -f dist/
-          git commit -m "Add built application"
+          git add dist/macos/eVAS.zip
+          git commit -m "Add built application archive"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
