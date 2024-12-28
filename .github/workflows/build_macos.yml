@@ -37,7 +37,7 @@ jobs:
       - name: Move ZIP archive to macos folder
         run: |
           mkdir -p dist/macos
-          mv eVAS_macos.zip dist/macos/eVAS_macos.zip
+          mv dist/eVAS_macos.zip dist/macos/eVAS_macos.zip
 
       - name: Commit and push ZIP archive
         run: |
