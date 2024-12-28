@@ -20,7 +20,7 @@ jobs:
         run: chmod +x create_mac_app.sh
 
       - name: Build application
-        run: ./create_mac_app.sh
+        run: ./scripts/create_mac_app.sh
 
       - name: Commit built application
         run: |
