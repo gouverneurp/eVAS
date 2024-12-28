@@ -28,7 +28,6 @@ jobs:
           echo 'xattr -d com.apple.quarantine ./eVAS.app' >> dist/run.command
           echo 'rm ./run.command' >> dist/run.command
           chmod +x dist/run.command
-          xattr -d com.apple.quarantine dist/run.command
 
       - name: Create ZIP archive
         run: |
