@@ -32,18 +32,18 @@ jobs:
       - name: Create ZIP archive
         run: |
           cd dist
-          zip -r eVAS_macos.zip eVAS.app run.command
+          zip -r eVAS_mac.zip eVAS.app run.command
 
       - name: Move ZIP archive to macos folder
         run: |
           mkdir -p dist/macos
-          mv dist/eVAS_macos.zip dist/macos/eVAS_macos.zip
+          mv dist/eVAS_mac.zip dist/macos/eVAS_mac.zip
 
       - name: Commit and push ZIP archive
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add -f dist/macos/eVAS_macos.zip
+          git add -f dist/macos/eVAS_mac.zip
           git commit -m "Add built application archive"
           git push
         env:
