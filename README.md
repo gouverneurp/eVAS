@@ -50,13 +50,15 @@ A detailed description of the introduced scale can be found in the following sec
 ## Standalone
 To use **eVAS** easily, you can download the latest version and run it without any further requirements. Just follow the instructions:
 - Just visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
-- Download the **eVAS** standalone software ('*eVAS.exe*' for Windows)
+- Download the **eVAS** standalone software ('*eVAS.exe*' for Windows, '*eVAS_mac.zip*' for MacOS, and '*eVAS_ubuntu*' for Ubuntu)
 - Launch the application
 - (If you see a message like the one below from Windows Defender, run the software anyway by following these steps: )
 
 First step                 |  Second step
 :-------------------------:|:-------------------------:
 <picture><img src="images/windows_protected_1.png?raw=true" width="400"/></picture>  |  <picture><img src="images/windows_protected_2.png?raw=true" width="400"/></picture>
+
+- (On MacOS several additional steps are needed to run the application: follow the tutorials to [run](https://github.com/gouverneurp/eVAS/blob/main/tutorials/run_on_mac.md) and [give permissions](https://github.com/gouverneurp/eVAS/blob/main/tutorials/mac_not_trusted.md) for the application)
 
 ## Examples
 
