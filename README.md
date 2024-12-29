@@ -55,7 +55,7 @@ A detailed description of the introduced scale can be found in the following sec
 
 Cold hot scale             |  Custom image scale
 :-------------------------:|:-------------------------:
-<picture><a href="main/examples/cold_hot_scale/"><img src="images/examples/cold_hot_scale.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/custom_image_scale/"><img src="images/examples/custom_image_scale.png?raw=true" width="400"/></a></picture>
+<picture><a href="examples/cold_hot_scale/"><img src="images/examples/cold_hot_scale.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/custom_image_scale/"><img src="images/examples/custom_image_scale.png?raw=true" width="400"/></a></picture>
 **Default**                |  **Simplified faces pain scale**
 <picture><a href="eVAS/tree/main/examples/default/"><img src="images/examples/default.png?raw=true" width="400"/></a></picture>  |  <picture><a href="eVAS/tree/main/examples/simplified_faces_pain_scale/"><img src="images/examples/simplified_faces_pain_scale.png?raw=true" width="400"/></a></picture>
 **Simple line**                |  **Numeric rating scale**
