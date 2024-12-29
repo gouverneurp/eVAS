@@ -1,4 +1,4 @@
-name: Build Python Application
+name: Build MacOS Application
 
 on:
   workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add -f dist/macos/eVAS_mac.zip
-          git commit -m "Add built application archive"
+          git commit -m "Add MacOS build"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
