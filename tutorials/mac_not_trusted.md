@@ -7,7 +7,7 @@ Apply the following steps, to allow  **eVAS** as accessibility app:
 
 - **Pop up**
 
-    If right are missing, following message pop ups at the beginning of start:
+    If the required rights are missing, the following message will appear at the start of the application:
     <p align="center">
         <img src="images/alert.png?raw=true" width="200"/>
     </p>
