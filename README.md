@@ -4,10 +4,18 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/gouverneurp/eVAS/blob/main/LICENSE.MD)
 ![Supported Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows%20%7C%20Linux-green)
 
-# eVAS: A user-friendly electronic Visual Analogue Scale
-<picture>
-    <img src="./images/icon.png?raw=true" width="50"/>
+----------------
+<div align="center">
+  <picture>
+    <img src="./images/icon.png?raw=true" width="150"/>
 </picture>
+    
+<b>eVAS</b>: A user-friendly electronic Visual Analogue Scale
+
+  [Overview](#overview) | [Examples](#examples) | [How to use](#how-to-use) | [How to cite](#how-to-cite) | [Contributing](#contributing) | [Copyright and license](#copyright-and-license) | [Appendix](#appendix)
+</div>
+
+## Overview
 
 This is the source code of the **e**lectronic **V**isual **A**nalogue **S**cale (**eVAS**).
 It is an open source, easy to use and user-friendly slider that records the slider values and saves them to CSV files. The application is available for Windows, MacOS and Ubuntu ([information on how to use](https://github.com/gouverneurp/eVAS/tree/main?tab=readme-ov-file#standalone)).
@@ -20,7 +28,7 @@ Possible errors are logged in a *log.txt* file.
     </p>
 </picture>
 
-# Statement of need
+### Statement of need
 
 <!---Self-reports -> VAS-->
 Self-report measures are one of the most popular tools used to measure personality because of their practicality and extensive research support. In particular, VASs are used as simple tools to provide single index measures, with the majority of research using VASs focusing on obtaining health states. Examples include the measurement of pain, but also several other applications such as the estimation of hunger or emotions such as anxiety.
@@ -41,26 +49,6 @@ Therefore, we present **eVAS**, an open source Python software to easily impleme
 It is available with built-in applications for all operating systems (Windows, Linux, MacOS), highly configurable and easy to use.
 A detailed description of the introduced scale can be found in the following sections.
 
-# How to use
-
-## General information
-**eVAS** is an easy-to-use visual analogue scale. Use the *config.ini* file to change the behaviour and appearance of the application. On startup, **eVAS** waits for a specific keystroke (space bar by default) to begin recording the visual analogue scale values continuously. Input can be configured for mouse and keyboard and is recorded at specified time intervals (frequency) or on value change. Values can also be recorded continuously in a range or in specified steps between two anchors with a fixed step size. The application can be exited at any time by pressing Escape. The recorded data stream is automatically saved as a CSV file in the same directory as the application. An example recording may look as follows:
-
-![alt text](images/example_csv.png)
-
-## Standalone
-To use **eVAS** easily, you can download the latest version and run it without any further requirements. Just follow the instructions:
-- Just visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
-- Download the **eVAS** standalone software ('*eVAS.exe*' for Windows, '*eVAS_mac.zip*' for MacOS, and '*eVAS_ubuntu*' for Ubuntu)
-- Launch the application
-- (If you see a message like the one below from Windows Defender, run the software anyway by following these steps: )
-
-First step                 |  Second step
-:-------------------------:|:-------------------------:
-<picture><img src="images/windows_protected_1.png?raw=true" width="400"/></picture>  |  <picture><img src="images/windows_protected_2.png?raw=true" width="400"/></picture>
-
-- (On MacOS several additional steps are needed to run the application: follow the tutorials to [run](https://github.com/gouverneurp/eVAS/blob/main/tutorials/run_on_mac.md) and [give permissions](https://github.com/gouverneurp/eVAS/blob/main/tutorials/mac_not_trusted.md) for the application)
-
 ## Examples
 
 **eVAS** is highly configurable. Simply specify the configuration file to suit your needs. Various use cases and configuration files can be found below:
@@ -76,7 +64,27 @@ Cold hot scale             |  Custom image scale
 To apply a specific configuration found here, simply click on the image, download all the files (a 'config.ini' file and any additional image files) and place them in the folder of your **eVAS** application (overwriting any old 'config.ini' files). Then simply start the application and enjoy the new configuration.
 The adapted configurations listed can also be used as inspiration for other configurations.
 
-## Python
+## How to use
+
+### General information
+**eVAS** is an easy-to-use visual analogue scale. Use the *config.ini* file to change the behaviour and appearance of the application. On startup, **eVAS** waits for a specific keystroke (space bar by default) to begin recording the visual analogue scale values continuously. Input can be configured for mouse and keyboard and is recorded at specified time intervals (frequency) or on value change. Values can also be recorded continuously in a range or in specified steps between two anchors with a fixed step size. The application can be exited at any time by pressing Escape. The recorded data stream is automatically saved as a CSV file in the same directory as the application. An example recording may look as follows:
+
+![alt text](images/example_csv.png)
+
+### Standalone
+To use **eVAS** easily, you can download the latest version and run it without any further requirements. Just follow the instructions:
+- Just visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
+- Download the **eVAS** standalone software ('*eVAS.exe*' for Windows, '*eVAS_mac.zip*' for MacOS, and '*eVAS_ubuntu*' for Ubuntu)
+- Launch the application
+- (If you see a message like the one below from Windows Defender, run the software anyway by following these steps: )
+
+First step                 |  Second step
+:-------------------------:|:-------------------------:
+<picture><img src="images/windows_protected_1.png?raw=true" width="400"/></picture>  |  <picture><img src="images/windows_protected_2.png?raw=true" width="400"/></picture>
+
+- (On MacOS several additional steps are needed to run the application: follow the tutorials to [run](https://github.com/gouverneurp/eVAS/blob/main/tutorials/run_on_mac.md) and [give permissions](https://github.com/gouverneurp/eVAS/blob/main/tutorials/mac_not_trusted.md) for the application)
+
+### Python
 If you want to run **eVAS** as a Python script in the command line, debug or contribute, please run the following commands:
 
 - Clone the project
@@ -108,7 +116,7 @@ If you want to run **eVAS** as a Python script in the command line, debug or con
 
 - Optionally configure the *config.ini* to change the behaviour of the **eVAS**
 
-# Build executables
+### Build executables
 
 If you want to build standalone executables based on your own custom code, please run the following script for your operating system. The scripts themselves use _pyinstaller_ internally. Cross-platform building is not supported, so if you want to build the Windows application, run it on Windows.
 
@@ -127,25 +135,7 @@ For MacOS use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
 ./scripts/create_mac_app.sh
 ```
 
-# How to contribute to the software
-All help is welcome and needed! Feel free to open pull requests and contact us via email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
-
-# Report issues or problems with the software
-You are welcome to open issues here directly on GitHub, or contact us by email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
-
-# Known issues
-
-- Pressing the Caps Lock key may cause the application to crash on certain versions of MacOS. This problem is known for eVAS and is strongly related to tkinter not working properly with pynput. The current solution is to avoid pressing the key on MacOS.
-
-# Used resources
-The application icon (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free to use and can be found at the following [link](https://www.freepik.com/icon/bad_10012613).
-
-<a href="https://www.freepik.com/icon/bad_10012613">Created by Muhammad_Usman & Designed by Freepik</a>
-
-# Notes
-
-While **eVAS** helps to collect user feedback in a standardised way, the output of **eVAS** is highly dependent on your study design and standardised instructions to participants. In order to collect valid data that can be used for scientific research, please follow common standards for studies.
-
+## How to cite
 <!---TODO:
 # Please cite our paper if you use our software or code:
 ```bibtex
@@ -153,3 +143,29 @@ While **eVAS** helps to collect user feedback in a standardised way, the output 
 }
 ```
 -->
+
+
+## Contributing
+### How to contribute to the software
+All help is welcome and needed! Feel free to open pull requests and contact us via email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
+
+### Report issues or problems with the software
+You are welcome to open issues here directly on GitHub, or contact us by email at [philipgouverneur@gmx.de](mailto:philipgouverneur@gmx.de).
+
+## Copyright and license
+
+Copyright 2024 Philip Gouverneur. Licensed under [MIT](LICENSE.MD).
+
+## Appendix
+### Known issues
+
+- Pressing the Caps Lock key may cause the application to crash on certain versions of MacOS. This problem is known for eVAS and is strongly related to tkinter not working properly with pynput. The current solution is to avoid pressing the key on MacOS.
+
+### Used resources
+The application icon (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free to use and can be found at the following [link](https://www.freepik.com/icon/bad_10012613).
+
+<a href="https://www.freepik.com/icon/bad_10012613">Created by Muhammad_Usman & Designed by Freepik</a>
+
+### Notes
+
+While **eVAS** helps to collect user feedback in a standardised way, the output of **eVAS** is highly dependent on your study design and standardised instructions to participants. In order to collect valid data that can be used for scientific research, please follow common standards for studies.
