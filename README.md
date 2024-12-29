@@ -2,6 +2,7 @@
 -->
 [![status](https://joss.theoj.org/papers/fcfce9c9fb4d33c87dac8cf876fd3b27/status.svg)](https://joss.theoj.org/papers/fcfce9c9fb4d33c87dac8cf876fd3b27)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/gouverneurp/eVAS/blob/main/LICENSE.MD)
+![Supported Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows%20%7C%20Linux-green)
 
 # eVAS: A user-friendly electronic Visual Analogue Scale
 <picture>
