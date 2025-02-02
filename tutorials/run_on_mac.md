@@ -1,4 +1,4 @@
-# Run eVAS on your Mac (MacOS Sequoia )
+# Run eVAS on your Mac (MacOS Sequoia)
 
 After downloading **eVAS**, there are a number of steps required to run **eVAS** for the first time:
 
