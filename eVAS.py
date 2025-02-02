@@ -40,7 +40,6 @@ try:
     import pyautogui
     import threading
     import webbrowser
-    import numpy as np
     import configparser
     import tkinter as tk
     from functools import wraps
@@ -57,6 +56,13 @@ try:
 except Exception as e:
     logging.exception(f"Import error: '{e}'.")
 
+
+def clip(value, min_value, max_value):
+    return max(min_value, min(value, max_value))
+
+def linspace(start, stop, num):
+    step = (stop - start) / (num - 1) if num > 1 else 0
+    return [start + i * step for i in range(num)]
 
 def get_key_string(x):
     # get string and remove "Key."
@@ -496,7 +502,7 @@ class Slider(tk.Canvas):
             self.upper_tk = self.create_image(w/2, h/4, anchor=CENTER, image=self.upper_img_tk)
 
         semi_line_height = gradient_h*linefac/2
-        xs = np.linspace(w*xpad, w*(1-xpad), 11)
+        xs = linspace(w*xpad, w*(1-xpad), 11)
 
         if self.use_two_triangle or self.use_triangle:
             mid_x = xs[len(xs)//2] # x value in the middle
@@ -517,7 +523,7 @@ class Slider(tk.Canvas):
         # visualize the labels with optional bars and numbers
         y2 = (1-textfac)*gradient_y+semi_line_height + textfac*h*(1-ypad)
         offset = 20
-        for i, x, text in zip(np.linspace(start= self.range[0], stop= self.range[1], num=len(self.labels)), range(int(xs[0]), int(xs[-1]), int((xs[-1] -  xs[0]) // max((len(self.labels) - 1), 1)) - 1), self.labels):
+        for i, x, text in zip(linspace(start= self.range[0], stop= self.range[1], num=len(self.labels)), range(int(xs[0]), int(xs[-1]), int((xs[-1] -  xs[0]) // max((len(self.labels) - 1), 1)) - 1), self.labels):
             x += i 
             self.create_text(x, y2 + self.vertical_line_height + offset, text=text, font=('DejaVu',self.label_size), anchor=CENTER, justify='center', fill='black')
             # vertical lines
@@ -621,7 +627,7 @@ class Slider(tk.Canvas):
             new_value = old_value + step
 
             # clip to [0, 1]
-            new_value = np.clip(new_value, self.range[0], self.range[1])
+            new_value = clip(value=new_value, min_value=self.range[0], max_value=self.range[1])
 
             # set value
             self.slider_value = new_value
@@ -644,7 +650,7 @@ class Slider(tk.Canvas):
         # calculate new value depending on the mouse position in relation to the slide
         new_value = ((event.x - (self.w * xpad)) / self.gradient_w) * (self.range[1] - self.range[0]) + self.range[0]
         # clip the value to the allowed range
-        new_value = np.clip(new_value, self.range[0], self.range[1])
+        new_value = clip(value=new_value, min_value=self.range[0], max_value=self.range[1])
         # limit the value to the allowed ranges - round to nearest multiple of 'step_size'
         self.slider_value = round(new_value / self.step_size) * self.step_size
 

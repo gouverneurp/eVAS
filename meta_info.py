@@ -1,4 +1,4 @@
-app_version = "0.2.0"
+app_version = "0.2.1"
 assert str(app_version)
 
 def create_metadata_file():
