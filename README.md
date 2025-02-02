@@ -72,7 +72,7 @@ The adapted configurations listed can also be used as inspiration for other conf
 ![alt text](images/example_csv.png)
 
 ### Standalone
-To use **eVAS** easily, you can download the latest version and run it without any further requirements. Just follow the instructions:
+To use **eVAS** easily, you can download the latest version and run it without any further requirements. Please note that there may be a long startup time (up to 30 seconds on MacOS) for the application as it comes as a single file that is not installed on your system. Just follow the instructions:
 - Just visit the [download page](https://gouverneurp.github.io/evas.html) or the github page with the [latest releases](https://github.com/gouverneurp/eVAS/releases/latest/)
 - Download the **eVAS** standalone software ('*eVAS.exe*' for Windows, '*eVAS_mac.zip*' for MacOS, and '*eVAS_ubuntu*' for Ubuntu)
 - Launch the application
