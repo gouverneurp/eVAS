@@ -62,6 +62,7 @@ python3 -m pip install -r requirements.txt
 
 printf "Create app...\n\n"
 pyinstaller eVAS.py \
+            --clean \
             --onefile \
             --noconsole \
             --add-data 'images/:images/' \

@@ -28,6 +28,7 @@ cp scripts/mac_patch/_darwin.py venv/lib/python3.12/site-packages/pynput/keyboar
 
 printf "Create app...\n\n"
 pyinstaller eVAS.py \
+            --clean \
             --onefile \
             --noconsole \
             --add-data 'images/:images/' \
