@@ -47,8 +47,14 @@ In addition, research articles introducing electronic scales are outdated with b
 <!--- Introduction our solution-->
 Therefore, we present **eVAS**, an open source Python software to easily implement an electronic VAS.
 It is available with built-in applications for all operating systems (Windows, Linux, MacOS), highly configurable and easy to use.
+Configurations for a Numeric Rating Scale (NRS) [1], a Visual Analogue Scale (VRS) [2], a Simplified Faces Pain Scale (SFPS) [3] and a Cold Hot Scale are provided below.
 A detailed description of the introduced scale can be found in the following sections.
 
+[1] Hartrick, C. T., Kovan, J. P., & Shapiro, S. (2003). The numeric rating scale for clinical pain measurement: a ratio measure?. Pain Practice, 3(4), 310-316.
+
+[2] Langley, G. B., & Sheppeard, H. (1985). The visual analogue scale: its use in pain measurement. Rheumatology international, 5(4), 145-148.
+
+[3] Emmott, A. S., West, N., Zhou, G., Dunsmuir, D., Montgomery, C. J., Lauder, G. R., & Von Baeyer, C. L. (2017). Validity of simplified versus standard self-report measures of pain intensity in preschool-aged children undergoing venipuncture. The Journal of Pain, 18(5), 564-573.
 ## Examples
 
 **eVAS** is highly configurable. Simply specify the configuration file to suit your needs. Various use cases and configuration files can be found below:
