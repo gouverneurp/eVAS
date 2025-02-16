@@ -49,7 +49,7 @@ bibliography: paper.bib
 # Summary
 
 <!---Short problem statement-->
-Data collection is ubiquitous in many areas of research. Recently, more and more data collection has been automated to facilitate subsequent computer analysis. The same applies to access to subjects' interpretations in the form of self-reports. These self-reports, usually collected in paper form as questionnaires, are standard in several applications in the field of psychology, and have been used in studies of pain, emotion, behaviour, anxiety and personality assessment, for example.
+Data collection is ubiquitous in many areas of research. Recently, more and more data collection has been automated to facilitate subsequent computer analysis. The same applies to access to subjects' interpretations in the form of self-reports. These self-reports, usually collected in paper form as questionnaires, are standard in several applications in the field of psychology, and have been used in studies of e.g., pain, emotion, behaviour, anxiety and personality assessment.
 Ratings are often obtained using simple Visual Analogue Scales (VAS) or Numeric Rating Scales (NRS), where subjects are asked to rate a particular outcome on a straight line or by a number in a given range with specific anchors. For example, people are asked to rate their current perceived level of pain between the anchors 'no pain' and 'most pain imaginable'.
 While these self-reports are easy to do with pen and paper, open-source software that can easily digitise and quantify the results of self-reports on an ongoing basis is rare. This is particularly true for researchers who are unfamiliar with writing code and software themselves.
 
