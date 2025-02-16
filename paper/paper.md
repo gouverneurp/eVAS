@@ -142,7 +142,7 @@ The delimiter and floating point are set to the European standard, a semicolon a
 The resulting file names contain the start time in the format "year|month|day_hour|minute|second_vas.csv", for example "20240206_093809_vas.csv". If the application is closed without recording any data, the empty CSV file is deleted on exit.
 
 <!--- Log file --->
-Although `eVAS` has been implemented to catch errors, unexpected errors are logged in a log.txt file. If no error is logged, the log file will be removed if it is empty at the end of the `eVAS` instance. Common errors, such as a corrupt config.ini file, are caught and useful information is provided to the end user via message boxes. A screenshot of an example warning displayed when the configuration file is incorrectly set up can be seen in \autoref{fig:config_warning}.
+Although `eVAS` has been implemented to catch errors, unexpected errors are logged in a log.txt file. If no error is logged, the empty log file will be removed at the end of the `eVAS` instance. Common errors, such as a corrupt config.ini file, are caught and useful information is provided to the end user via message boxes. A screenshot of an example warning displayed when the configuration file is incorrectly set up can be seen in \autoref{fig:config_warning}.
 
 ![Warning if the config file is setup wrong.\label{fig:config_warning}](../images/config_warning.png){ width=50% }
 
