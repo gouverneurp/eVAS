@@ -14,33 +14,33 @@ authors:
     email: philipgouverneur@gmx.de
   - name: Frédéric Li
     orcid: 0000-0003-2110-4207
-    affiliation: 1
+    affiliation: 2
   - name: Luisa Luebke
     orcid: 0000-0003-2504-4766
-    affiliation: 2
+    affiliation: 3
   - name: Tibor M. Szikszay
     orcid: 0000-0002-6351-2957
-    affiliation: 2
-  - name: Sonja-Dana Roelen
     affiliation: 3
+  - name: Sonja-Dana Roelen
+    affiliation: 4
   - name: Jarek Krajewski
     orcid: 0000-0001-8936-7105
-    affiliation: 3
+    affiliation: 4
   - name: Kerstin Luedtke
     orcid: 0000-0002-7308-5469
-    affiliation: 2
+    affiliation: 3
   - name: Marcin Grzegorzek
     orcid: 0000-0003-4877-8287
-    affiliation: "1, 4"
+    affiliation: "1, 2"
 
 affiliations:
   - name: Institute of Medical Informatics, University of Lübeck, Ratzeburger Allee 160, 23562 Lübeck, Germany
     index: 1
-  - name: Institute of Health Sciences, Department of Physiotherapy, Pain and Exercise Research Luebeck (P.E.R.L.), University of Lübeck, 23562 Lübeck, Germany
+  - name: German Research Center for Artificial Intelligence, Lübeck, Germany 
     index: 2
-  - name: Institut für Experimentelle Psychophysiologie Gmbh (IXP), 40215 Düsseldorf, Germany
+  - name: Institute of Health Sciences, Department of Physiotherapy, Pain and Exercise Research Luebeck (P.E.R.L.), University of Lübeck, 23562 Lübeck, Germany
     index: 3
-  - name: Department of Knowledge Engineering, University of Economics in Katowice, Bogucicka 3, 40287 Katowice, Poland
+  - name: Institut für Experimentelle Psychophysiologie Gmbh (IXP), 40215 Düsseldorf, Germany
     index: 4
 date: 19 Januar 2024
 bibliography: paper.bib
