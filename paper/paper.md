@@ -22,7 +22,7 @@ authors:
     orcid: 0000-0002-6351-2957
     affiliation: 3
   - name: Sonja-Dana Roelen
-    affiliation: 4
+    affiliation: "4, 5"
   - name: Jarek Krajewski
     orcid: 0000-0001-8936-7105
     affiliation: 4
@@ -42,6 +42,8 @@ affiliations:
     index: 3
   - name: Institut für Experimentelle Psychophysiologie Gmbh (IXP), 40215 Düsseldorf, Germany
     index: 4
+  - name: Institute of Affective Computing, 40547 Düsseldorf, Kaiser Friedrich Ring 108
+    index: 5
 date: 19 Januar 2024
 bibliography: paper.bib
 ---
