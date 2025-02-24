@@ -22,10 +22,10 @@ authors:
     orcid: 0000-0002-6351-2957
     affiliation: 3
   - name: Sonja-Dana Roelen
-    affiliation: "4, 5"
+    affiliation: 4
   - name: Jarek Krajewski
     orcid: 0000-0001-8936-7105
-    affiliation: 4
+    affiliation: "4, 5"
   - name: Kerstin Luedtke
     orcid: 0000-0002-7308-5469
     affiliation: 3
