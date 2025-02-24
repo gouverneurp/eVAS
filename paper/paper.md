@@ -21,7 +21,7 @@ authors:
   - name: Tibor M. Szikszay
     orcid: 0000-0002-6351-2957
     affiliation: 3
-  - name: Sonja-Dana Roelen
+  - name: Sonja Dana Roelen
     affiliation: 4
   - name: Jarek Krajewski
     orcid: 0000-0001-8936-7105
@@ -40,7 +40,7 @@ affiliations:
     index: 2
   - name: Institute of Health Sciences, Department of Physiotherapy, Pain and Exercise Research Luebeck (P.E.R.L.), University of Lübeck, 23562 Lübeck, Germany
     index: 3
-  - name: Institut für Experimentelle Psychophysiologie Gmbh (IXP), 40215 Düsseldorf, Germany
+  - name: Institut für experimentelle Psychophysiologie GmbH, 40215 Düsseldorf, Germany
     index: 4
   - name: Institute of Affective Computing, 40547 Düsseldorf, Kaiser Friedrich Ring 108
     index: 5
