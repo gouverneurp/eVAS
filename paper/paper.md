@@ -1,5 +1,5 @@
 ---
-title: "`eVAS`: A user-friendly electronic Visual Analogue Scale"
+title: "eVAS: A user-friendly electronic Visual Analogue Scale"
 tags:
   - Python
   - eVAS
