@@ -1,4 +1,4 @@
-def get_com():
+def get_com(root):
     """Function to find the COM of the 'QST.LAB TCS2' device.
 
     First looks for it automatically, if not found ask for the user to define the port.
@@ -19,9 +19,9 @@ def get_com():
         # create a GUI to ask for the port
         import tkinter as tk
         from tkinter import simpledialog
-        ROOT = tk.Tk()
-        ROOT.withdraw()
-        com = simpledialog.askstring(title="COM", prompt="QST.LAB TCS2 could not be found automatically. Please define COM:")
+        root.withdraw()
+        com = simpledialog.askstring(title="COM", prompt="QST.LAB TCS2 could not be found automatically. Please define COM:", parent=root)
+        root.deiconify()
 
         return com
 

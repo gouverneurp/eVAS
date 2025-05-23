@@ -415,7 +415,7 @@ class Slider(tk.Canvas):
                 self.bind('<Motion>', self.update_mouse)
 
         if (self.trigger_thermode) and (sys.platform == 'win32'):
-            self.com = get_com()
+            self.com = get_com(self.master.master)
 
         #-------------------------------------------------------------------------------------------------------
         # KeyMonitor class
@@ -597,8 +597,12 @@ class Slider(tk.Canvas):
                         time.sleep(each_sec - ((time.time() - start_time) % each_sec))
 
                 if (self.trigger_thermode) and (sys.platform == 'win32'):
-                    send_start_trigger(self.com)
-                    logging.info("trigger sent")
+                    try:
+                        send_start_trigger(self.com)
+                        logging.info("trigger sent") 
+                    except Exception as e:
+                        print(f"Error while sending trigger: '{e}'")
+                        logging.exception(e)
 
                 x = threading.Thread(target= callback_thread)
                 x.start()
