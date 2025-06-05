@@ -471,7 +471,7 @@ class Slider(tk.Canvas):
 
         # visualize the slider background
         self.delete('all')
-        self.gradient_w, gradient_h = int(w*(1-2*xpad)+.5), self.line_height
+        self.gradient_w, gradient_h = int(w*(1-2*xpad)), self.line_height
         gradient_y = h*(ypad+(1-2*ypad))*gradfac
         if self.use_image:
             image_path = self.get_image_path()
@@ -671,8 +671,15 @@ class Slider(tk.Canvas):
         if self.started and (self.start_text_id in self.find_all()):
             self.delete(self.start_text_id)
 
-            # move cursor to location of slider
-            x= int((self.w * xpad) + (self.gradient_w * normalized_val))
+            # --- move cursor to location of slider
+            # tk pads the window automatically - get the padding on the left side
+            tk_pad = (self.master.master.winfo_width() - self.w) // 2
+            # calculate own padding
+            x_pad  = (self.w * xpad)
+            # x position on gradient
+            gradient_x = (self.gradient_w * normalized_val)
+            # cursor position is tk padding + own padding + position on the gradient
+            x= int(tk_pad + x_pad + gradient_x)
             y= int(self.master.master.winfo_height()//2)
             pyautogui.moveTo(x + self.master.master.monitor.x, y)
 
