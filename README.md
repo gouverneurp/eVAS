@@ -142,13 +142,12 @@ For MacOS use the [create_mac_app.sh](scripts/create_mac_app.sh) script:
 ```
 
 ## How to cite
-<!---TODO:
-# Please cite our paper if you use our software or code:
+
+Please cite our paper if you use our software or code:
+Gouverneur et al., (2025). eVAS: A user-friendly electronic Visual Analogue Scale. Journal of Open Source Software, 10(107), 6876, https://doi.org/10.21105/joss.06876
 ```bibtex
-@article{ TODO:
-}
+@article{Gouverneur2025, doi = {10.21105/joss.06876}, url = {https://doi.org/10.21105/joss.06876}, year = {2025}, publisher = {The Open Journal}, volume = {10}, number = {107}, pages = {6876}, author = {Gouverneur, Philip and Li, Frédéric and Luebke, Luisa and Szikszay, Tibor M. and Roelen, Sonja Dana and Krajewski, Jarek and Luedtke, Kerstin and Grzegorzek, Marcin}, title = {eVAS: A user-friendly electronic Visual Analogue Scale}, journal = {Journal of Open Source Software} } 
 ```
--->
 
 
 ## Contributing
