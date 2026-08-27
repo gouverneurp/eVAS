@@ -930,7 +930,8 @@ class vas_thread(threading.Thread):
         # set an icon
         icon_path = f"{os.path.dirname(__file__)}/images/icon.png"
         icon_path = icon_path.replace("\\", "/")
-        self.root.iconphoto(True, PIL.ImageTk.PhotoImage(file=icon_path))
+        self.root._icon_image = PIL.ImageTk.PhotoImage(master=self.root, file=icon_path)
+        self.root.iconphoto(True, self.root._icon_image)
 
         # bind window close to end function
         self.root.protocol("WM_DELETE_WINDOW", self.end)
@@ -1105,7 +1106,13 @@ def message(fun, **kwargs):
     # set the logo
     icon_path = f"{os.path.dirname(__file__)}/images/icon.png"
     icon_path = icon_path.replace("\\", "/")
-    message_window.iconphoto(True, PIL.ImageTk.PhotoImage(file=icon_path))
+    # bind the PhotoImage to this window's interpreter; when a main Tk root
+    # already exists, an unbound PhotoImage attaches to that other interpreter
+    # and 'iconphoto' fails with "not a photo image"
+    message_window._icon_image = PIL.ImageTk.PhotoImage(
+        master=message_window, file=icon_path
+    )
+    message_window.iconphoto(True, message_window._icon_image)
     # create window
     return_value = fun(**kwargs)
     # delete the window
