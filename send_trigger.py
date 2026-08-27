@@ -180,8 +180,131 @@ def resolve_com(root):
     return None
 
 
+def _read_response(ser, settle=0.05, max_wait=0.4):
+    """Collects whatever the TCS sends back within a short time window.
+
+    Between stimulations the TCS II streams temperatures at 1 Hz, so a query
+    answer may be surrounded by lines like '+300+300+300+300+300+300'. We
+    therefore just gather everything that arrives within 'max_wait' seconds
+    instead of trying to match an exact line.
+
+    Args:
+        ser (serial.Serial): Open serial connection to the TCS II.
+        settle (float, optional): Grace period for the first bytes to arrive.
+        max_wait (float, optional): Overall time budget for reading.
+
+    Returns:
+        str: Raw decoded text received (possibly several lines), stripped.
+    """
+    import time
+
+    time.sleep(settle)
+    deadline = time.time() + max_wait
+    chunks = []
+    while time.time() < deadline:
+        waiting = ser.in_waiting
+        if not waiting:
+            break
+        chunks.append(ser.read(waiting).decode(errors="replace"))
+        time.sleep(0.05)
+    return "".join(chunks).strip()
+
+
+def _query(ser, command, **kwargs):
+    """Sends a command to the TCS and returns its textual response.
+
+    Args:
+        ser (serial.Serial): Open serial connection to the TCS II.
+        command (str): Command character(s), e.g. '?' or 'P'.
+
+    Returns:
+        str: The device response, see '_read_response()'.
+    """
+    ser.reset_input_buffer()
+    ser.write(str.encode(command))
+    return _read_response(ser, **kwargs)
+
+
+def run_sanity_checks(com, baudrate=115200):
+    """Opens the TCS II once, queries identity, error/battery state and the
+    loaded stimulation parameters, writes everything to the log, then closes.
+
+    This is meant to be called once when the application starts - never on the
+    hot path that launches a stimulation ('send_start_trigger()'). All checks
+    are read-only and non-fatal; anomalies are logged as warnings so that, if a
+    stimulation later does not happen, the log shows the device state.
+
+    Args:
+        com (str): COM port of the 'QST.LAB TCS2' device. Can be retrieved using 'get_com()'/'resolve_com()'.
+        baudrate (int, optional): Used baudrate. Defaults to 115200.
+
+    Returns:
+        bool: Whether the device identified itself as a 'TCS'.
+    """
+    import logging
+    import serial
+
+    logging.info(f"TCS: running start-up sanity checks on '{com}' at {baudrate} baud.")
+    identified = False
+    try:
+        # 'timeout' keeps the reads from blocking if the device stays quiet.
+        with serial.Serial(com, baudrate=baudrate, timeout=0.2) as ser:
+            try:
+                identity = _query(ser, "?")
+                logging.info(f"TCS sanity check - identity ('?'): {identity!r}")
+                identified = "TCS" in identity
+                if not identified:
+                    logging.warning(
+                        "TCS sanity check - '?' did not return 'TCS'. Wrong COM "
+                        f"port, wrong baudrate or device not ready? Got: {identity!r}"
+                    )
+            except Exception as e:
+                logging.warning(f"TCS sanity check - identity check failed: '{e}'")
+
+            try:
+                errors = _query(ser, "Q")
+                logging.info(f"TCS sanity check - error state ('Q'): {errors!r}")
+                # 'Q' returns one digit per zone + neutral: '0' = OK, '>1' = ERROR.
+                digits = [c for c in errors if c.isdigit()]
+                if digits and any(c != "0" for c in digits):
+                    logging.warning(
+                        f"TCS sanity check - device reports a non-OK error state: {errors!r}"
+                    )
+            except Exception as e:
+                logging.warning(f"TCS sanity check - error-state check failed: '{e}'")
+
+            try:
+                battery = _query(ser, "B")
+                logging.info(f"TCS sanity check - battery ('B'): {battery!r}")
+            except Exception as e:
+                logging.warning(f"TCS sanity check - battery check failed: '{e}'")
+
+            try:
+                params = _query(ser, "P", max_wait=1.0)
+                logging.info(
+                    f"TCS sanity check - stimulation parameters ('P'): {params!r}"
+                )
+                if not params:
+                    logging.warning(
+                        "TCS sanity check - 'P' returned nothing. Is a stimulation "
+                        "configured? 'L' does not launch anything without one."
+                    )
+            except Exception as e:
+                logging.warning(f"TCS sanity check - parameter check failed: '{e}'")
+    except Exception as e:
+        logging.warning(
+            f"TCS: start-up sanity checks could not be run (port '{com}'): '{e}'"
+        )
+
+    return identified
+
+
 def send_start_trigger(com, baudrate=115200):
-    """Sends a trigger to the 'QST.LAB TCS2'.
+    """Sends the start trigger to the 'QST.LAB TCS2' to launch the configured stimulation.
+
+    This runs on the hot path (the moment the run starts), so it does the
+    minimum: open the port, send 'L', close. Device health is verified once at
+    start-up by 'run_sanity_checks()'.
 
     Args:
         com (str): COM port of the 'QST.LAB TCS2' device. Can be retrieved using 'get_com()'/'resolve_com()'.
@@ -189,16 +312,22 @@ def send_start_trigger(com, baudrate=115200):
     """
     import serial
 
-    ser = serial.Serial(com, baudrate=baudrate)
-    ser.write(str.encode("H"))
+    # 'L' = "start stimuLation" in the TCS II serial protocol.
+    with serial.Serial(com, baudrate=baudrate) as ser:
+        ser.write(str.encode("L"))
 
 
 if __name__ == "__main__":
+    import logging
     import tkinter as tk
+
+    # when run standalone, surface the sanity-check output on the console
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
     root = tk.Tk()
     com = resolve_com(root)
     root.destroy()
 
     if com is not None:
+        run_sanity_checks(com)
         send_start_trigger(com)

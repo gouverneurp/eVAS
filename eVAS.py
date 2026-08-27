@@ -59,7 +59,7 @@ try:
     import PIL.Image, PIL.ImageTk
     from screeninfo import get_monitors
     from pynput.keyboard import Key, Listener
-    from send_trigger import get_com, send_start_trigger
+    from send_trigger import get_com, send_start_trigger, run_sanity_checks
 
 except Exception as e:
     logging.exception(f"Import error: '{e}'.")
@@ -515,6 +515,10 @@ class Slider(tk.Canvas):
 
         if (self.trigger_thermode) and (sys.platform == "win32"):
             self.com = get_com(self.master.master)
+            # verify the thermode once now, up front - 'check_start' must stay
+            # fast and only send the trigger, not probe the device
+            if self.com is not None:
+                run_sanity_checks(self.com)
 
         # -------------------------------------------------------------------------------------------------------
         # KeyMonitor class
