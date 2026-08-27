@@ -164,7 +164,7 @@ Copyright 2024 Philip Gouverneur. Licensed under [MIT](LICENSE.MD).
 ## Appendix
 ### Known issues
 
-- Pressing the Caps Lock key may cause the application to crash on certain versions of MacOS. This problem is known for eVAS and is strongly related to tkinter not working properly with pynput. The current solution is to avoid pressing the key on MacOS.
+- No known issues at the moment.
 
 ### Used resources
 The application icon (<picture><img src="./images/icon.png?raw=true" width="12"/></picture>) is free to use and can be found at the following [link](https://www.freepik.com/icon/bad_10012613).

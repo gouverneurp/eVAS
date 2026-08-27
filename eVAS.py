@@ -43,6 +43,7 @@ logging.basicConfig(
 try:
     import time
     import glob
+    import queue
     import psutil
     import requests
     import pyautogui
@@ -440,6 +441,7 @@ class Covas(tk.Frame):
         self.slider.grab_set()
 
     def update(self):
+        self.slider.process_key_events()
         self.slider.update_slider()
         return super().update()
 
@@ -520,19 +522,23 @@ class Slider(tk.Canvas):
         # KeyMonitor class
         # -------------------------------------------------------------------------------------------------------
         class KeyMonitor:
-            def __init__(self, key_press_function, key_release_function):
+            # The pynput ``Listener`` runs its callbacks on its own thread (a
+            # Quartz CFRunLoop thread on macOS). Tkinter is not thread-safe, so
+            # the callbacks here must not touch application state directly -
+            # they only drop the event into a queue that the Tk main loop
+            # drains via ``Slider.process_key_events``.
+            def __init__(self, event_queue):
                 super().__init__()
                 self.listener = Listener(
                     on_press=self.on_press, on_release=self.on_release
                 )
-                self.key_release_fun = key_release_function
-                self.key_press_fun = key_press_function
+                self.event_queue = event_queue
 
             def on_press(self, key):
-                self.key_press_fun(key)
+                self.event_queue.put(("press", key))
 
             def on_release(self, key):
-                self.key_release_fun(key)
+                self.event_queue.put(("release", key))
 
             def stop_monitoring(self):
                 self.listener.stop()
@@ -540,10 +546,26 @@ class Slider(tk.Canvas):
             def start_monitoring(self):
                 self.listener.start()
 
-        monitor = KeyMonitor(
-            key_press_function=self.key_press, key_release_function=self.key_release
-        )
+        self.key_event_queue = queue.Queue()
+        monitor = KeyMonitor(event_queue=self.key_event_queue)
         monitor.start_monitoring()
+
+    def process_key_events(self):
+        """Drain queued keyboard events on the Tk main thread.
+
+        Called from the main loop so that all handling of key presses happens
+        on the same thread that owns Tk, avoiding the cross-thread crashes
+        (most visibly on macOS when toggling Caps Lock).
+        """
+        try:
+            while True:
+                kind, key = self.key_event_queue.get_nowait()
+                if kind == "press":
+                    self.key_press(key)
+                else:
+                    self.key_release(key)
+        except queue.Empty:
+            pass
 
     def get_image_path(self, pattern="image.*"):
         """Finds paths for files with the given pattern and returns the first one.
@@ -715,11 +737,6 @@ class Slider(tk.Canvas):
         Args:
             key (Key): The released key.
         """
-        # reduce crashes on mac os when caps lock is pressed
-        if (sys.platform == "darwin") and (key == Key.caps_lock):
-            time.sleep(0.05)
-            return
-
         self.check_start(key)
         self.check_move(key)
 
@@ -729,11 +746,6 @@ class Slider(tk.Canvas):
         Args:
             key (Key): The pressed key.
         """
-        # reduce crashes on mac os when caps lock is pressed
-        if (sys.platform == "darwin") and (key == Key.caps_lock):
-            time.sleep(0.05)
-            return
-
         self.check_start(key)
         if self.move_while_down:
             self.check_move(key)
