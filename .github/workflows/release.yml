@@ -1,0 +1,151 @@
+name: Build and release
+
+# Builds the standalone eVAS app for Windows, macOS and Ubuntu.
+#
+# Triggers:
+#   * Manually via the "Run workflow" button (workflow_dispatch).
+#   * Every push to main (e.g. a merged PR).
+#
+# A GitHub release is created automatically when the version in meta_info.py
+# (app_version) does not yet have a matching tag/release. Bump that value in a
+# PR and the merge to main cuts the release. Existing versions just get rebuilt
+# and the release step is skipped (unless "force_release" is set on a manual run).
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_release:
+        description: "Create the release even if the version already exists (deletes and recreates it)"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get.outputs.version }}
+      exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Read app_version from meta_info.py
+        id: get
+        run: |
+          version="$(python -c 'import meta_info; print(meta_info.app_version)')"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "app_version = $version"
+
+      - name: Check whether a release already exists for this version
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${{ steps.get.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release ${{ steps.get.outputs.version }} already exists -> will only rebuild."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Release ${{ steps.get.outputs.version }} does not exist yet -> will publish."
+          fi
+
+  build:
+    needs: version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            asset: eVAS.exe
+            asset_path: dist/eVAS.exe
+          - os: macos-13
+            asset: eVAS_mac.zip
+            asset_path: dist/eVAS_mac.zip
+          - os: ubuntu-latest
+            asset: eVAS_ubuntu
+            asset_path: dist/eVAS_ubuntu
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/create_vas_exe.ps1
+
+      - name: Build (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          chmod +x ./scripts/create_mac_app.sh
+          ./scripts/create_mac_app.sh
+          cd dist
+          {
+            echo 'cd "$(dirname "$0")"'
+            echo 'xattr -d com.apple.quarantine ./eVAS.app'
+            echo 'rm ./run.command'
+          } > run.command
+          chmod +x run.command
+          zip -r eVAS_mac.zip eVAS.app run.command
+
+      - name: Build (Ubuntu)
+        if: runner.os == 'Linux'
+        env:
+          TERM: xterm
+        run: |
+          chmod +x ./scripts/create_ubuntu_app.sh
+          ./scripts/create_ubuntu_app.sh
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.asset_path }}
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    needs: [version, build]
+    # No status function (always(), etc.) is used in this `if`, so an implicit
+    # success() is applied on top of it: the release is published only when the
+    # `version` job AND every `build` matrix leg (Windows, macOS, Ubuntu) have
+    # succeeded. Any failed or cancelled build skips this job entirely.
+    if: needs.version.outputs.exists == 'false' || github.event.inputs.force_release == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Delete existing release (force)
+        if: github.event.inputs.force_release == 'true' && needs.version.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete "${{ needs.version.outputs.version }}" --yes --cleanup-tag
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ needs.version.outputs.version }}" \
+            --target "${{ github.sha }}" \
+            --title "${{ needs.version.outputs.version }}" \
+            --generate-notes \
+            "artifacts/eVAS.exe" \
+            "artifacts/eVAS_mac.zip" \
+            "artifacts/eVAS_ubuntu"
