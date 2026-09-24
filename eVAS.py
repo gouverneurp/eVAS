@@ -228,7 +228,7 @@ def create_config():
         "devices",
         "# Character to send as trigger to the thermode. Should be: single character (e.g., 'T' or 'L')",
     )
-    config.set("devices", "thermode_trigger_char", "T")
+    config.set("devices", "thermode_trigger_char", "'T'")
     config.set(
         "devices",
         "# Moving the slider not only when the button is released, but also while the button is held down. Should be: True/False",
@@ -482,9 +482,13 @@ class Slider(tk.Canvas):
             self.move_while_down = eval(config["devices"]["move_while_down"])
             self.trigger_thermode = eval(config["devices"]["trigger_thermode"])
             self.thermode_baudrate = eval(config["devices"]["thermode_baudrate"])
-            self.thermode_trigger_char = eval(
-                config["devices"]["thermode_trigger_char"]
-            )
+            trigger_char_value = config["devices"]["thermode_trigger_char"]
+            # Handle both quoted ('T') and unquoted (T) single character values
+            try:
+                self.thermode_trigger_char = eval(trigger_char_value)
+            except NameError:
+                # If eval fails because it's unquoted, treat it as a string literal
+                self.thermode_trigger_char = trigger_char_value
             self.on_click = eval(config["devices"]["on_click"])
 
             self.keys_start = eval(config["keys"]["keys_start"])
