@@ -24,7 +24,7 @@ def list_serial_ports():
 
 
 def ask_for_com(
-    root, ports, message="Please select the COM port of the 'QST.LAB TCS2' device:"
+    root, ports, message="Please select the COM port of the thermode device:"
 ):
     """Opens a small dialog letting the user pick a COM port from a list of (valid) ports.
 
@@ -44,7 +44,7 @@ def ask_for_com(
         root.withdraw()
         showinfo(
             title="eVAS: No COM ports found",
-            message="No usable COM ports were found. Please connect the 'QST.LAB TCS2' device and try again.",
+            message="No usable COM ports were found. Please connect the thermode device and try again.",
             parent=root,
         )
         root.deiconify()
@@ -98,7 +98,7 @@ def ask_for_com(
 
 
 def get_com(root):
-    """Function to find the COM of the 'QST.LAB TCS2' device.
+    """Function to find the COM of the thermode device.
 
     First looks for it automatically by matching "CH340" in the port description, without touching any
     port. Only if that fails is the selector dialog shown, listing the currently valid (openable) ports.
@@ -107,7 +107,7 @@ def get_com(root):
         root (tk.Tk): Parent tk window, used to display a port-selection dialog if needed.
 
     Returns:
-        str or None: COM port of the 'QST.LAB TCS2' device, or None if none could be determined.
+        str or None: COM port of the thermode device, or None if none could be determined.
     """
     import logging
     from serial.tools.list_ports_windows import comports
@@ -121,29 +121,29 @@ def get_com(root):
     if len(ch340_ports) == 1:
         return ch340_ports[0].device
 
-    print("QST.LAB TCS2 could not be found automatically.")
+    print("Thermode device could not be found automatically.")
     ports_description = (
         ", ".join(f"{p.device} ({p.description})" for p in ports) if ports else "none"
     )
     print(f"Available ports: {ports_description}")
     logging.info(
-        f"QST.LAB TCS2 could not be found automatically. Available ports: {ports_description}"
+        f"Thermode device could not be found automatically. Available ports: {ports_description}"
     )
 
     # only now probe which of the available ports can actually be opened, to populate the selector
     valid_ports = list_serial_ports()
     if valid_ports:
-        prompt = "QST.LAB TCS2 could not be found automatically. Please select the correct COM port:"
+        prompt = "Thermode device could not be found automatically. Please select the correct COM port:"
     else:
         prompt = (
-            "QST.LAB TCS2 could not be found automatically and no usable COM ports were detected. "
+            "Thermode device could not be found automatically and no usable COM ports were detected. "
             + "Please connect the device and select the correct COM port, or cancel to continue without it."
         )
     return ask_for_com(root, valid_ports, message=prompt)
 
 
 def resolve_com(root):
-    """Determines a validated, currently openable COM port for the 'QST.LAB TCS2' device.
+    """Determines a validated, currently openable COM port for the thermode device.
 
     Tries to find the device automatically. If that fails, or the found/selected port turns out to be
     unusable when actually tested, the user is informed with details and repeatedly asked to pick a
@@ -225,103 +225,41 @@ def _query(ser, command, **kwargs):
     return _read_response(ser, **kwargs)
 
 
-def run_sanity_checks(com, baudrate=115200):
-    """Opens the TCS II once, queries identity, error/battery state and the
-    loaded stimulation parameters, writes everything to the log, then closes.
-
-    This is meant to be called once when the application starts - never on the
-    hot path that launches a stimulation ('send_start_trigger()'). All checks
-    are read-only and non-fatal; anomalies are logged as warnings so that, if a
-    stimulation later does not happen, the log shows the device state.
-
-    Args:
-        com (str): COM port of the 'QST.LAB TCS2' device. Can be retrieved using 'get_com()'/'resolve_com()'.
-        baudrate (int, optional): Used baudrate. Defaults to 115200.
-
-    Returns:
-        bool: Whether the device identified itself as a 'TCS'.
-    """
-    import logging
-    import serial
-
-    logging.info(f"TCS: running start-up sanity checks on '{com}' at {baudrate} baud.")
-    identified = False
-    try:
-        # 'timeout' keeps the reads from blocking if the device stays quiet.
-        with serial.Serial(com, baudrate=baudrate, timeout=0.2) as ser:
-            try:
-                identity = _query(ser, "?")
-                logging.info(f"TCS sanity check - identity ('?'): {identity!r}")
-                identified = "TCS" in identity
-                if not identified:
-                    logging.warning(
-                        "TCS sanity check - '?' did not return 'TCS'. Wrong COM "
-                        f"port, wrong baudrate or device not ready? Got: {identity!r}"
-                    )
-            except Exception as e:
-                logging.warning(f"TCS sanity check - identity check failed: '{e}'")
-
-            try:
-                errors = _query(ser, "Q")
-                logging.info(f"TCS sanity check - error state ('Q'): {errors!r}")
-                # 'Q' returns one digit per zone + neutral: '0' = OK, '>1' = ERROR.
-                digits = [c for c in errors if c.isdigit()]
-                if digits and any(c != "0" for c in digits):
-                    logging.warning(
-                        f"TCS sanity check - device reports a non-OK error state: {errors!r}"
-                    )
-            except Exception as e:
-                logging.warning(f"TCS sanity check - error-state check failed: '{e}'")
-
-            try:
-                battery = _query(ser, "B")
-                logging.info(f"TCS sanity check - battery ('B'): {battery!r}")
-            except Exception as e:
-                logging.warning(f"TCS sanity check - battery check failed: '{e}'")
-
-            try:
-                params = _query(ser, "P", max_wait=1.0)
-                logging.info(
-                    f"TCS sanity check - stimulation parameters ('P'): {params!r}"
-                )
-                if not params:
-                    logging.warning(
-                        "TCS sanity check - 'P' returned nothing. Is a stimulation "
-                        "configured? 'L' does not launch anything without one."
-                    )
-            except Exception as e:
-                logging.warning(f"TCS sanity check - parameter check failed: '{e}'")
-    except Exception as e:
-        logging.warning(
-            f"TCS: start-up sanity checks could not be run (port '{com}'): '{e}'"
-        )
-
-    return identified
-
-
-def send_start_trigger(com, baudrate=115200):
-    """Sends the start trigger to the 'QST.LAB TCS2' to launch the configured stimulation.
+def send_start_trigger(com, baudrate, trigger_char):
+    """Sends the start trigger to the thermode device.
 
     This runs on the hot path (the moment the run starts), so it does the
-    minimum: open the port, send 'L', close. Device health is verified once at
-    start-up by 'run_sanity_checks()'.
+    minimum: open the port, send the trigger character, read response, close.
+    Runs in a thread to avoid blocking evas.py.
 
     Args:
-        com (str): COM port of the 'QST.LAB TCS2' device. Can be retrieved using 'get_com()'/'resolve_com()'.
-        baudrate (int, optional): Used baudrate for the signal. Defaults to 115200.
+        com (str): COM port of the thermode device. Can be retrieved using 'get_com()'/'resolve_com()'.
+        baudrate (int): Used baudrate for the signal.
+        trigger_char (str): Character to send as trigger.
     """
+    import logging
+    import threading
     import serial
 
-    # 'L' = "start stimuLation" in the TCS II serial protocol.
-    with serial.Serial(com, baudrate=baudrate) as ser:
-        ser.write(str.encode("L"))
+    def _send_trigger():
+        try:
+            with serial.Serial(com, baudrate=baudrate) as ser:
+                response = _query(ser, trigger_char, max_wait=0.5)
+                if response:
+                    logging.info(f"Trigger response: {response}")
+                else:
+                    logging.info("Trigger sent, no response received")
+        except Exception as e:
+            logging.error(f"Failed to send trigger: {e}")
+
+    thread = threading.Thread(target=_send_trigger, daemon=True)
+    thread.start()
 
 
 if __name__ == "__main__":
     import logging
     import tkinter as tk
 
-    # when run standalone, surface the sanity-check output on the console
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
     root = tk.Tk()
@@ -329,5 +267,4 @@ if __name__ == "__main__":
     root.destroy()
 
     if com is not None:
-        run_sanity_checks(com)
-        send_start_trigger(com)
+        send_start_trigger(com, 115200, "T")

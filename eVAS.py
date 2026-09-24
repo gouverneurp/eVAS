@@ -59,7 +59,7 @@ try:
     import PIL.Image, PIL.ImageTk
     from screeninfo import get_monitors
     from pynput.keyboard import Key, Listener
-    from send_trigger import get_com, send_start_trigger, run_sanity_checks
+    from send_trigger import get_com, send_start_trigger
 
 except Exception as e:
     logging.exception(f"Import error: '{e}'.")
@@ -216,9 +216,19 @@ def create_config():
     config.add_section("devices")
     config.set(
         "devices",
-        "# Whether to send a signal to trigger a 'QST.LAB TCS2' thermode when the eVAS is recording. Only works on Windows. Should be: True/False",
+        "# Whether to send a signal to trigger a thermode (for example, 'QST.Lab') when the eVAS is recording. Only works on Windows. Should be: True/False",
     )
     config.set("devices", "trigger_thermode", "False")
+    config.set(
+        "devices",
+        "# Baudrate for the thermode serial connection. Should be: integer (e.g., 115200)",
+    )
+    config.set("devices", "thermode_baudrate", "115200")
+    config.set(
+        "devices",
+        "# Character to send as trigger to the thermode. Should be: single character (e.g., 'T' or 'L')",
+    )
+    config.set("devices", "thermode_trigger_char", "T")
     config.set(
         "devices",
         "# Moving the slider not only when the button is released, but also while the button is held down. Should be: True/False",
@@ -471,6 +481,10 @@ class Slider(tk.Canvas):
             self.use_mouse = eval(config["devices"]["use_mouse"])
             self.move_while_down = eval(config["devices"]["move_while_down"])
             self.trigger_thermode = eval(config["devices"]["trigger_thermode"])
+            self.thermode_baudrate = eval(config["devices"]["thermode_baudrate"])
+            self.thermode_trigger_char = eval(
+                config["devices"]["thermode_trigger_char"]
+            )
             self.on_click = eval(config["devices"]["on_click"])
 
             self.keys_start = eval(config["keys"]["keys_start"])
@@ -515,10 +529,6 @@ class Slider(tk.Canvas):
 
         if (self.trigger_thermode) and (sys.platform == "win32"):
             self.com = get_com(self.master.master)
-            # verify the thermode once now, up front - 'check_start' must stay
-            # fast and only send the trigger, not probe the device
-            if self.com is not None:
-                run_sanity_checks(self.com)
 
         # -------------------------------------------------------------------------------------------------------
         # KeyMonitor class
@@ -763,7 +773,9 @@ class Slider(tk.Canvas):
 
                 if (self.trigger_thermode) and (sys.platform == "win32"):
                     try:
-                        send_start_trigger(self.com)
+                        send_start_trigger(
+                            self.com, self.thermode_baudrate, self.thermode_trigger_char
+                        )
                         logging.info("trigger sent")
                     except Exception as e:
                         print(f"Error while sending trigger: '{e}'")
