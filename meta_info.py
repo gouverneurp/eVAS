@@ -1,9 +1,9 @@
-app_version = "0.2.1"
+app_version = "1.0.0"
 assert str(app_version)
 
+
 def create_metadata_file():
-    """Function to create a version metadata file with Pyinstaller for this project.
-    """
+    """Function to create a version metadata file with Pyinstaller for this project."""
     import pyinstaller_versionfile
 
     pyinstaller_versionfile.create_versionfile(
@@ -14,8 +14,9 @@ def create_metadata_file():
         internal_name="eVAS.exe",
         legal_copyright="© Philip Johannes Gouverneur. All rights reserved.",
         original_filename="eVAS.exe",
-        product_name="eVAS"
+        product_name="eVAS",
     )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     create_metadata_file()

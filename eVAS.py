@@ -216,9 +216,19 @@ def create_config():
     config.add_section("devices")
     config.set(
         "devices",
-        "# Whether to send a signal to trigger a 'QST.LAB TCS2' thermode when the eVAS is recording. Only works on Windows. Should be: True/False",
+        "# Whether to send a signal to trigger a thermode (for example, 'QST.Lab') when the eVAS is recording. Only works on Windows. Should be: True/False",
     )
     config.set("devices", "trigger_thermode", "False")
+    config.set(
+        "devices",
+        "# Baudrate for the thermode serial connection. Should be: integer (e.g., 115200)",
+    )
+    config.set("devices", "thermode_baudrate", "115200")
+    config.set(
+        "devices",
+        "# Character to send as trigger to the thermode. Should be: single character (e.g., 'T' or 'L')",
+    )
+    config.set("devices", "thermode_trigger_char", "'T'")
     config.set(
         "devices",
         "# Moving the slider not only when the button is released, but also while the button is held down. Should be: True/False",
@@ -436,7 +446,7 @@ class Covas(tk.Frame):
         self.callback = callback
 
         self.slider = Slider(self, callback=callback, *args, **kwargs)
-        self.slider.pack(side="top", expand=True, fill=X, padx=10, pady=10)
+        self.slider.pack(side="top", expand=True, fill=BOTH, padx=10, pady=10)
         self.slider.grab_set()
 
     def update(self):
@@ -471,6 +481,14 @@ class Slider(tk.Canvas):
             self.use_mouse = eval(config["devices"]["use_mouse"])
             self.move_while_down = eval(config["devices"]["move_while_down"])
             self.trigger_thermode = eval(config["devices"]["trigger_thermode"])
+            self.thermode_baudrate = eval(config["devices"]["thermode_baudrate"])
+            trigger_char_value = config["devices"]["thermode_trigger_char"]
+            # Handle both quoted ('T') and unquoted (T) single character values
+            try:
+                self.thermode_trigger_char = eval(trigger_char_value)
+            except NameError:
+                # If eval fails because it's unquoted, treat it as a string literal
+                self.thermode_trigger_char = trigger_char_value
             self.on_click = eval(config["devices"]["on_click"])
 
             self.keys_start = eval(config["keys"]["keys_start"])
@@ -503,6 +521,7 @@ class Slider(tk.Canvas):
         self.w, self.h = None, None
         self.callback = callback
         self.started = False
+        self.version_text_id = None
         self.slider_value = self.start_value
 
         self.bind("<Configure>", self.update_size)
@@ -694,11 +713,16 @@ class Slider(tk.Canvas):
             fill="black",
         )
 
+        # show version in bottom-right corner
+        if not self.started:
+            self.show_version()
+
     def create_slider(self):
         val = self.slider_value
         self.slider_img = PIL.Image.new("RGBA", (1, 1), self.slider_color)
         self.slider_img = self.slider_img.resize(
-            (self.slider_width, self.slider_height), PIL.Image.Resampling.NEAREST
+            (self.slider_width, self.slider_height),
+            PIL.Image.Resampling.NEAREST,
         )
         self.slider_img_tk = PIL.ImageTk.PhotoImage(self.slider_img, master=self)
         slider_x, slider_y = (
@@ -707,6 +731,22 @@ class Slider(tk.Canvas):
         )
         self.slider_tk = self.create_image(
             slider_x, slider_y, anchor=CENTER, image=self.slider_img_tk
+        )
+
+    def show_version(self):
+        """Display version number in bottom-right corner."""
+        if self.version_text_id is not None:
+            return
+        w, h = self.w, self.h
+        if w is None or h is None:
+            return
+        self.version_text_id = self.create_text(
+            w - 10,
+            h - 10,
+            text=f"v{app_version}",
+            font=("DejaVu", 14),
+            anchor=SE,
+            fill="gray",
         )
 
     def key_release(self, key):
@@ -759,7 +799,11 @@ class Slider(tk.Canvas):
 
                 if (self.trigger_thermode) and (sys.platform == "win32"):
                     try:
-                        send_start_trigger(self.com)
+                        send_start_trigger(
+                            self.com,
+                            baudrate=self.thermode_baudrate,
+                            trigger_char=self.thermode_trigger_char,
+                        )
                         logging.info("trigger sent")
                     except Exception as e:
                         print(f"Error while sending trigger: '{e}'")
@@ -793,7 +837,9 @@ class Slider(tk.Canvas):
 
             # clip to [0, 1]
             new_value = clip(
-                value=new_value, min_value=self.range[0], max_value=self.range[1]
+                value=new_value,
+                min_value=self.range[0],
+                max_value=self.range[1],
             )
 
             # set value
@@ -820,7 +866,9 @@ class Slider(tk.Canvas):
         ) + self.range[0]
         # clip the value to the allowed range
         new_value = clip(
-            value=new_value, min_value=self.range[0], max_value=self.range[1]
+            value=new_value,
+            min_value=self.range[0],
+            max_value=self.range[1],
         )
         # limit the value to the allowed ranges - round to nearest multiple of 'step_size'
         self.slider_value = round(new_value / self.step_size) * self.step_size
@@ -838,6 +886,12 @@ class Slider(tk.Canvas):
         # when the experiment just started
         if self.started and (self.start_text_id in self.find_all()):
             self.delete(self.start_text_id)
+
+        # Hide version number in bottom-right corner once recording starts.
+        if self.started and self.version_text_id is not None:
+            if self.version_text_id in self.find_all():
+                self.delete(self.version_text_id)
+            self.version_text_id = None
 
             # --- move cursor to location of slider
             # tk pads the window automatically - get the padding on the left side
@@ -930,7 +984,8 @@ class vas_thread(threading.Thread):
         # set an icon
         icon_path = f"{os.path.dirname(__file__)}/images/icon.png"
         icon_path = icon_path.replace("\\", "/")
-        self.root.iconphoto(True, PIL.ImageTk.PhotoImage(file=icon_path))
+        self.root._icon_image = PIL.ImageTk.PhotoImage(master=self.root, file=icon_path)
+        self.root.iconphoto(True, self.root._icon_image)
 
         # bind window close to end function
         self.root.protocol("WM_DELETE_WINDOW", self.end)
@@ -1105,7 +1160,13 @@ def message(fun, **kwargs):
     # set the logo
     icon_path = f"{os.path.dirname(__file__)}/images/icon.png"
     icon_path = icon_path.replace("\\", "/")
-    message_window.iconphoto(True, PIL.ImageTk.PhotoImage(file=icon_path))
+    # bind the PhotoImage to this window's interpreter; when a main Tk root
+    # already exists, an unbound PhotoImage attaches to that other interpreter
+    # and 'iconphoto' fails with "not a photo image"
+    message_window._icon_image = PIL.ImageTk.PhotoImage(
+        master=message_window, file=icon_path
+    )
+    message_window.iconphoto(True, message_window._icon_image)
     # create window
     return_value = fun(**kwargs)
     # delete the window
