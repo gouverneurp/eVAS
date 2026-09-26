@@ -446,7 +446,7 @@ class Covas(tk.Frame):
         self.callback = callback
 
         self.slider = Slider(self, callback=callback, *args, **kwargs)
-        self.slider.pack(side="top", expand=True, fill=X, padx=10, pady=10)
+        self.slider.pack(side="top", expand=True, fill=BOTH, padx=10, pady=10)
         self.slider.grab_set()
 
     def update(self):
@@ -521,6 +521,7 @@ class Slider(tk.Canvas):
         self.w, self.h = None, None
         self.callback = callback
         self.started = False
+        self.version_text_id = None
         self.slider_value = self.start_value
 
         self.bind("<Configure>", self.update_size)
@@ -712,6 +713,10 @@ class Slider(tk.Canvas):
             fill="black",
         )
 
+        # show version in bottom-right corner
+        if not self.started:
+            self.show_version()
+
     def create_slider(self):
         val = self.slider_value
         self.slider_img = PIL.Image.new("RGBA", (1, 1), self.slider_color)
@@ -725,6 +730,22 @@ class Slider(tk.Canvas):
         )
         self.slider_tk = self.create_image(
             slider_x, slider_y, anchor=CENTER, image=self.slider_img_tk
+        )
+
+    def show_version(self):
+        """Display version number in bottom-right corner."""
+        if self.version_text_id is not None:
+            return
+        w, h = self.w, self.h
+        if w is None or h is None:
+            return
+        self.version_text_id = self.create_text(
+            w - 10,
+            h - 10,
+            text=f"v{app_version}",
+            font=("DejaVu", 14),
+            anchor=SE,
+            fill="gray",
         )
 
     def key_release(self, key):
@@ -858,6 +879,12 @@ class Slider(tk.Canvas):
         # when the experiment just started
         if self.started and (self.start_text_id in self.find_all()):
             self.delete(self.start_text_id)
+
+        # Hide version number in bottom-right corner once recording starts.
+        if self.started and self.version_text_id is not None:
+            if self.version_text_id in self.find_all():
+                self.delete(self.version_text_id)
+            self.version_text_id = None
 
             # --- move cursor to location of slider
             # tk pads the window automatically - get the padding on the left side
