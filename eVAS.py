@@ -721,7 +721,8 @@ class Slider(tk.Canvas):
         val = self.slider_value
         self.slider_img = PIL.Image.new("RGBA", (1, 1), self.slider_color)
         self.slider_img = self.slider_img.resize(
-            (self.slider_width, self.slider_height), PIL.Image.Resampling.NEAREST
+            (self.slider_width, self.slider_height),
+            PIL.Image.Resampling.NEAREST,
         )
         self.slider_img_tk = PIL.ImageTk.PhotoImage(self.slider_img, master=self)
         slider_x, slider_y = (
@@ -799,7 +800,9 @@ class Slider(tk.Canvas):
                 if (self.trigger_thermode) and (sys.platform == "win32"):
                     try:
                         send_start_trigger(
-                            self.com, self.thermode_baudrate, self.thermode_trigger_char
+                            self.com,
+                            baudrate=self.thermode_baudrate,
+                            trigger_char=self.thermode_trigger_char,
                         )
                         logging.info("trigger sent")
                     except Exception as e:
@@ -834,7 +837,9 @@ class Slider(tk.Canvas):
 
             # clip to [0, 1]
             new_value = clip(
-                value=new_value, min_value=self.range[0], max_value=self.range[1]
+                value=new_value,
+                min_value=self.range[0],
+                max_value=self.range[1],
             )
 
             # set value
@@ -861,7 +866,9 @@ class Slider(tk.Canvas):
         ) + self.range[0]
         # clip the value to the allowed range
         new_value = clip(
-            value=new_value, min_value=self.range[0], max_value=self.range[1]
+            value=new_value,
+            min_value=self.range[0],
+            max_value=self.range[1],
         )
         # limit the value to the allowed ranges - round to nearest multiple of 'step_size'
         self.slider_value = round(new_value / self.step_size) * self.step_size
