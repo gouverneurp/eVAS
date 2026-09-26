@@ -70,7 +70,7 @@ jobs:
           - os: windows-latest
             asset: eVAS.exe
             asset_path: dist/eVAS.exe
-          - os: macos-13
+          - os: macos-latest
             asset: eVAS_mac.zip
             asset_path: dist/eVAS_mac.zip
           - os: ubuntu-latest
