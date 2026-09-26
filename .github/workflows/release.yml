@@ -18,6 +18,10 @@ on:
         description: "Create the release even if the version already exists (deletes and recreates it)"
         type: boolean
         default: false
+      dry_run:
+        description: "Skip release creation entirely (for testing builds only)"
+        type: boolean
+        default: false
   push:
     branches: [main]
 
@@ -121,7 +125,7 @@ jobs:
     # success() is applied on top of it: the release is published only when the
     # `version` job AND every `build` matrix leg (Windows, macOS, Ubuntu) have
     # succeeded. Any failed or cancelled build skips this job entirely.
-    if: needs.version.outputs.exists == 'false' || github.event.inputs.force_release == 'true'
+    if: (needs.version.outputs.exists == 'false' || github.event.inputs.force_release == 'true') && github.event.inputs.dry_run != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
