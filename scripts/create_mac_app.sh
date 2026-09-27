@@ -34,6 +34,9 @@ pyinstaller eVAS.py \
             --add-data 'images/:images/' \
             --icon='images/icon.ico' \
             --hidden-import='PIL._tkinter_finder' \
+            --hidden-import='pynput._util.darwin' \
+            --hidden-import='pynput.keyboard._darwin' \
+            --hidden-import='pynput.mouse._darwin' \
             -n "eVAS" \
             -y
 
