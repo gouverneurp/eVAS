@@ -1,6 +1,7 @@
 import platform
 from packaging import version
 
+
 def is_allowed_mac_version():
     """Check whether the used MacOS Version is not to old.
     Currently, we just allow for 10.15 or higher.
@@ -9,6 +10,7 @@ def is_allowed_mac_version():
         bool: Whether the used MacOS Version is okay.
     """
     return version.parse(platform.mac_ver()[0]) >= version.parse("10.15")
+
 
 def load_iot():
     """Loads the apple framework IOKit
@@ -19,7 +21,8 @@ def load_iot():
     try:
         import objc
         from Foundation import NSBundle
-        IOKit = NSBundle.bundleWithIdentifier_('com.apple.framework.IOKit')
+
+        IOKit = NSBundle.bundleWithIdentifier_("com.apple.framework.IOKit")
 
         ioset = {}
         functions = [
@@ -34,7 +37,12 @@ def load_iot():
     except Exception as e:
         print(e)
 
-def is_keyboard_verified(ioset=None, kIOHIDAccessTypeGranted=0, kIOHIDRequestTypeListenEvent=1):
+
+def is_keyboard_verified(
+    ioset=None,
+    kIOHIDAccessTypeGranted=0,
+    kIOHIDRequestTypeListenEvent=1,
+):
     """Checks whether keyboard monitoring is verified or not.
 
     Args:
@@ -49,16 +57,16 @@ def is_keyboard_verified(ioset=None, kIOHIDAccessTypeGranted=0, kIOHIDRequestTyp
         if ioset is None:
             ioset = load_iot()
 
-        status = ioset['IOHIDCheckAccess'](kIOHIDRequestTypeListenEvent)
+        status = ioset["IOHIDCheckAccess"](kIOHIDRequestTypeListenEvent)
 
         return status == kIOHIDAccessTypeGranted
 
     except Exception as e:
         print(e)
 
+
 def request_access():
-    """Function to open the Apple System Preferences at the Privacy section to grant Keyboard Monitoring rights.
-    """
+    """Function to open the Apple System Preferences at the Privacy section to grant Keyboard Monitoring rights."""
     from AppKit import NSWorkspace, NSURL
 
     url = "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
