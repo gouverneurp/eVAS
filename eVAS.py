@@ -431,9 +431,9 @@ def eval_config(config):
                 showinfo,
                 title="eVAS: Warning",
                 message=(
-                    "Start value should be in-between range, "
-                    "but is '{start_value}' with range '{range[0]}' and '{range[1]}'. "
-                    "Fix or delete the '{config_file_name}' file."
+                    f"Start value should be in-between range, "
+                    f"but is '{start_value}' with range '{range[0]}' and '{range[1]}'. "
+                    f"Fix or delete the '{config_file_name}' file."
                 ),
             )
             sys.exit()
