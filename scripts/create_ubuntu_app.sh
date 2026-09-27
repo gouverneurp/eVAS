@@ -47,6 +47,8 @@ sudo apt-get update
 install python3-venv 
 install python3-dev 
 install python3-tk
+install libx11-dev
+install libxtst-dev
 
 printf "Creating virtual environment...\n\n"
 python3 -m venv venv
@@ -67,10 +69,17 @@ pyinstaller eVAS.py \
             --noconsole \
             --add-data 'images/:images/' \
             --hidden-import='PIL._tkinter_finder' \
+            --hidden-import='pynput._util.xorg' \
+            --hidden-import='pynput.keyboard._xorg' \
+            --hidden-import='pynput.mouse._xorg' \
             -n "eVAS_ubuntu" \
             -y
 
 printf "Clean up...\n\n"
 rm -r build
 rm eVAS_ubuntu.spec
+
+printf "Make executable...\n\n"
+chmod +x dist/eVAS_ubuntu
+
 printf "Finished."
