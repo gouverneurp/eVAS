@@ -7,12 +7,12 @@ This script has been tested in Windows using Python 3.12.0.
 Please install pip packages according to the requirements.txt file.
 """
 
-from meta_info import app_version
-
+import logging
 import os
 import sys
-import logging
 from datetime import datetime
+
+from meta_info import app_version
 
 
 def get_current_path():
@@ -41,24 +41,26 @@ logging.basicConfig(
 )
 
 try:
-    import time
-    import glob
-    import psutil
-    import requests
-    import pyautogui
-    import threading
-    import webbrowser
     import configparser
+    import glob
+    import threading
+    import time
     import tkinter as tk
-    from functools import wraps
-    from packaging import version
-    from tkinter.messagebox import showinfo, askquestion
-    from tkinter.constants import *
+    import webbrowser
     from contextlib import contextmanager
+    from functools import wraps
+    from tkinter.messagebox import askquestion, showinfo
     from urllib.request import urlretrieve
-    import PIL.Image, PIL.ImageTk
-    from screeninfo import get_monitors
+
+    import PIL.Image
+    import PIL.ImageTk
+    import psutil
+    import pyautogui
+    import requests
+    from packaging import version
     from pynput.keyboard import Key, Listener
+    from screeninfo import get_monitors
+
     from send_trigger import get_com, send_start_trigger
 
 except Exception as e:
@@ -112,9 +114,11 @@ def throw_config_error(text):
     message(
         showinfo,
         title="eVAS: Warning",
-        message="An error ocurred while reading the config file. "
-        + "Probably a setting not permitted was chosen. "
-        + "Simplest solution is to delete the '{config_file_name}' file.",
+        message=(
+            f"An error ocurred while reading the config file. "
+            f"Probably a setting not permitted was chosen. "
+            f"Simplest solution is to delete the '{config_file_name}' file."
+        ),
     )
     sys.exit()
 
@@ -136,7 +140,7 @@ def catch(func):
             message(
                 showinfo,
                 title="eVAS: Warning",
-                message=f"An unknown error ocurred. "
+                message="An unknown error ocurred. "
                 + "Please contact Philip Gouverneur <philipgouverneur@gmx.de> "
                 + "and provide the created 'log.txt' file.",
             )
@@ -405,26 +409,32 @@ def eval_config(config):
             message(
                 showinfo,
                 title="eVAS: Warning",
-                message=f"Range should be a list with two entries but is '{range}'. "
-                + "Fix or delete the '{config_file_name}' file.",
+                message=(
+                    f"Range should be a list with two entries but is '{range}'. "
+                    f"Fix or delete the '{config_file_name}' file."
+                ),
             )
             sys.exit()
         if range[0] >= range[1]:
             message(
                 showinfo,
                 title="eVAS: Warning",
-                message=f"First element of range should be smaller than second value, "
-                + "but are '{range[0]}' and '{range[1]}'. "
-                + "Fix or delete the '{config_file_name}' file.",
+                message=(
+                    f"First element of range should be smaller than second value, "
+                    f"but are '{range[0]}' and '{range[1]}'. "
+                    f"Fix or delete the '{config_file_name}' file."
+                ),
             )
             sys.exit()
         if start_value < range[0] or start_value > range[1]:
             message(
                 showinfo,
                 title="eVAS: Warning",
-                message=f"Start value should be in-between range, "
-                + "but is '{start_value}' with range '{range[0]}' and '{range[1]}'. "
-                + "Fix or delete the '{config_file_name}' file.",
+                message=(
+                    "Start value should be in-between range, "
+                    "but is '{start_value}' with range '{range[0]}' and '{range[1]}'. "
+                    "Fix or delete the '{config_file_name}' file."
+                ),
             )
             sys.exit()
         return config
@@ -441,12 +451,12 @@ class Covas(tk.Frame):
         # set a visible cursor if interact by mouse click, otherwise set cursor invisible
         cursor = "target" if on_click else "none"
         super().__init__(master, cursor=cursor, background="white")
-        self.pack(fill=BOTH, expand=True)
+        self.pack(fill="both", expand=True)
         self.focus_set()
         self.callback = callback
 
         self.slider = Slider(self, callback=callback, *args, **kwargs)
-        self.slider.pack(side="top", expand=True, fill=BOTH, padx=10, pady=10)
+        self.slider.pack(side="top", expand=True, fill="both", padx=10, pady=10)
         self.slider.grab_set()
 
     def update(self):
@@ -581,8 +591,10 @@ class Slider(tk.Canvas):
             message(
                 showinfo,
                 title="eVAS: Warning",
-                message=f"You configured to load an image as background in the '{config_file_name}' file but none was found. "
-                + "Either update the config file or place an image called '{pattern}' in the same directory of the application.",
+                message=(
+                    f"You configured to load an image as background in the '{config_file_name}' file but none was found. "
+                    f"Either update the config file or place an image called '{pattern}' in the same directory of the application."
+                ),
             )
             sys.exit()
         return images[0]
@@ -620,7 +632,7 @@ class Slider(tk.Canvas):
             )
         self.gradient_img_tk = PIL.ImageTk.PhotoImage(gradient_img, master=self)
         self.gradient_tk = self.create_image(
-            w / 2, gradient_y, anchor=CENTER, image=self.gradient_img_tk
+            w / 2, gradient_y, anchor="center", image=self.gradient_img_tk
         )
 
         # optionally, place an image above
@@ -630,7 +642,7 @@ class Slider(tk.Canvas):
             gradient_img = im.resize((w, 3 * gradient_h), PIL.Image.Resampling.BILINEAR)
             self.upper_img_tk = PIL.ImageTk.PhotoImage(gradient_img, master=self)
             self.upper_tk = self.create_image(
-                w / 2, h / 4, anchor=CENTER, image=self.upper_img_tk
+                w / 2, h / 4, anchor="center", image=self.upper_img_tk
             )
 
         semi_line_height = gradient_h * linefac / 2
@@ -677,7 +689,7 @@ class Slider(tk.Canvas):
                 y2 + self.vertical_line_height + offset,
                 text=text,
                 font=("DejaVu", self.label_size),
-                anchor=CENTER,
+                anchor="center",
                 justify="center",
                 fill="black",
             )
@@ -694,7 +706,7 @@ class Slider(tk.Canvas):
                     y1 + offset,
                     text=value,
                     font=("DejaVu", self.number_size, "bold"),
-                    anchor=N,
+                    anchor="n",
                     fill="black",
                 )
 
@@ -708,7 +720,7 @@ class Slider(tk.Canvas):
             h // 4,
             text=self.welcome_message,
             font=("DejaVu", 32),
-            anchor=CENTER,
+            anchor="center",
             justify="center",
             fill="black",
         )
@@ -730,7 +742,7 @@ class Slider(tk.Canvas):
             self.h * (ypad + (1 - 2 * ypad)) * gradfac,
         )
         self.slider_tk = self.create_image(
-            slider_x, slider_y, anchor=CENTER, image=self.slider_img_tk
+            slider_x, slider_y, anchor="center", image=self.slider_img_tk
         )
 
     def show_version(self):
@@ -745,7 +757,7 @@ class Slider(tk.Canvas):
             h - 10,
             text=f"v{app_version}",
             font=("DejaVu", 14),
-            anchor=SE,
+            anchor="se",
             fill="gray",
         )
 
@@ -925,7 +937,7 @@ class vas_thread(threading.Thread):
         self.filename = (
             current_path
             + os.sep
-            + "{}_vas.csv".format(datetime.now().strftime("%Y%m%d_%H%M%S"))
+            + f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_vas.csv"
         )
 
         try:
@@ -949,8 +961,7 @@ class vas_thread(threading.Thread):
                     if self.save_config_in_csv:
                         with open(config_file_name) as f:
                             lines = f.readlines()
-                            for line in lines:
-                                f_output.write(line)
+                            f_output.writelines(lines)
 
                     f_output.write(f"secs{self.delimiter}values\n")
                 else:
@@ -1015,7 +1026,7 @@ class vas_thread(threading.Thread):
 
         # remove file if no data was saved
         remove = True
-        for i, _ in enumerate(open(self.filename, "r").readlines()):
+        for i, _ in enumerate(open(self.filename).readlines()):
             if i > 0:
                 remove = False
                 break
@@ -1076,9 +1087,9 @@ def perform_windows_update():
     # create script to to replace file
     update_script = "update.bat"
     f = open(update_script, "w")
-    f.write(f"@echo off\n")
-    f.write(f'echo "Performing eVAS update..." \n')
-    f.write(f"timeout /t 3 /nobreak > NUL\n")
+    f.write("@echo off\n")
+    f.write('echo "Performing eVAS update..." \n')
+    f.write("timeout /t 3 /nobreak > NUL\n")
     f.write(f'del "{own_name}"\n')
     f.write(f'ren "{filename}" "{own_name}"\n')
     f.write(f'start "" "{own_name}"\n')
@@ -1187,7 +1198,7 @@ def main():
 
     # under MAC OS
     if sys.platform == "darwin":
-        from mac_os import is_keyboard_verified, request_access, is_allowed_mac_version
+        from mac_os import is_allowed_mac_version, is_keyboard_verified, request_access
 
         if not is_allowed_mac_version():
             message(
