@@ -3,3 +3,8 @@ repos:
     rev: 25.1.0
     hooks:
     - id: black
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: main
+    hooks:
+    - id: ruff
+      args: [--fix, --exit-non-zero-on-fix]
