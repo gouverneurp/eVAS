@@ -112,7 +112,7 @@ def throw_config_error(text):
     message(
         showinfo,
         title="eVAS: Warning",
-        message=f"An error ocurred while reading the config file. "
+        message="An error ocurred while reading the config file. "
         + "Probably a setting not permitted was chosen. "
         + "Simplest solution is to delete the '{config_file_name}' file.",
     )
